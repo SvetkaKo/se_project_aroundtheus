@@ -73,9 +73,6 @@
 @media screen and (max-width: 320px) {
   .profile {
     flex-direction: column;
-  }
-
-  .profile {
     margin-top: 42px;
   }
 
@@ -114,10 +111,7 @@
   }
 
   .profile__title {
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    text-align: center;
 
     font-size: 14px;
     font-style: normal;
@@ -126,6 +120,5 @@
   }
 
   .profile__title {
-    text-align: center;
   }
 }
