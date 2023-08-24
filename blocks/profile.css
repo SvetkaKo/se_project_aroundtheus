@@ -20,7 +20,7 @@
   margin: 0;
   padding: 0;
   grid-area: name;
-  min-width: 100px;
+  align-self: center;
 
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -86,7 +86,7 @@
   opacity: 0.6;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 600px) {
   .profile {
     flex-direction: column;
     margin-top: 42px;
@@ -120,16 +120,18 @@
   }
 
   .profile__info {
-    margin-top: 30px;
+    margin-top: 16px;
   }
 
   .profile__name {
     text-align: center;
     font-size: 22px;
+    line-height: normal;
   }
 
   .profile__title {
     text-align: center;
     font-size: 14px;
+    margin: 0;
   }
 }
