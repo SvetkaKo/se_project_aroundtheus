@@ -20,13 +20,14 @@
   justify-content: space-between;
   align-items: baseline;
 
-  font-size: 24px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
 }
 
 .card__title {
+  margin: 0;
+  font-size: 24px;
   max-width: 210px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -41,5 +42,5 @@
 }
 
 .card__btn:hover {
-  opacity: 0.6;
+  opacity: 0.5;
 }
