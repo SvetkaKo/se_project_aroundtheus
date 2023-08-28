@@ -25,7 +25,7 @@
   width: 358px;
 }
 
-.modal__container__close-button {
+.modal__close-button {
   position: absolute;
   top: -50px;
   right: -50px;
@@ -35,25 +35,25 @@
   padding: 0;
 }
 
-.modal__container__close-button-img {
+.modal__close-button-img {
   width: 40px;
   height: 40px;
   fill: #000;
 }
 
-.modal__container__title {
+.modal__title {
   font-size: 24px;
   font-weight: 900;
   margin: 0;
   margin-bottom: 30px;
 }
 
-.modal__container__form {
+.modal__form {
   display: flex;
   flex-direction: column;
 }
 
-.modal__container__form__input {
+.modal__form-input {
   font-size: 14px;
   font-weight: 400;
   height: 50px;
@@ -63,11 +63,11 @@
   margin-bottom: 8px;
 }
 
-.modal__container__form__input:focus {
+.modal__form-input:focus {
   outline: none;
 }
 
-.modal__container__form__save-button {
+.modal__save-button {
   padding: 0;
   background-color: #000;
   color: #fff;
@@ -82,8 +82,24 @@
 /* Modifier to make modal visible */
 
 /* Responsive Design */
-@media (max-width: 1280px) {
-  .content {
+@media (max-width: 600px) {
+  .modal__close-button {
+    top: -63px;
+    right: 0px;
+  }
+
+  .modal__container {
+    width: 238px;
+    padding: 25px 22px;
+    margin: 0 19px;
+  }
+
+  .modal__title {
+    font-size: 18px;
+  }
+
+  .modal__save-button {
+    height: 46px;
   }
 }
 
