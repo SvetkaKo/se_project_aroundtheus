@@ -6,9 +6,17 @@
   flex-direction: column;
 }
 
-.card__img {
+.template-card {
   max-width: 282px;
-  max-height: 282px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__img {
+  width: 282px;
+  height: 282px;
   object-fit: cover;
 }
 

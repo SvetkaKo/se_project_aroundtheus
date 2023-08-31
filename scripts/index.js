@@ -1,4 +1,4 @@
-let initialCards = [
+let cards = [
   {
     name: 'Yosemite Valley',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg',
@@ -25,15 +25,46 @@ let initialCards = [
   },
 ];
 
-let btnClose = document.querySelector('.modal__close-button-img');
+let btnClose = document.querySelector('.form__btn-close-img');
 let btnEdit = document.querySelector('.profile__btn_type_edit');
-let btnSave = document.querySelector('.modal__save-button');
+let formSubmit = document.querySelector('.form__form');
 
-function modalEdit() {
-  let modal = document.querySelector('.modal');
-  modal.classList.toggle('modal_opened');
+let profileName = document.querySelector('.profile__name');
+let profileTitle = document.querySelector('.profile__title');
+
+let inputName = document.querySelector('#name');
+let inputTitle = document.querySelector('#title');
+
+let form = document.querySelector('.form');
+let cardsContainer = document.querySelector('.cards');
+
+function getCardElement(data) {
+  const cardTemplate = document.querySelector('.template-card').content;
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardTitleElement = cardElement.querySelector('.card__title');
+  const cardImgElement = cardElement.querySelector('.card__img');
+  cardTitleElement.textContent = data.name;
+  cardImgElement.src = data.link;
+  return cardElement;
 }
 
-btnClose.addEventListener('click', modalEdit);
-btnEdit.addEventListener('click', modalEdit);
-btnSave.addEventListener('click', modalEdit);
+function closeForm(evt) {
+  let form = document.querySelector('.form');
+  form.classList.toggle('form_opened');
+  evt.preventDefault();
+}
+
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+  profileName.textContent = inputName.value;
+  profileTitle.textContent = inputTitle.value;
+  form.classList.toggle('form_opened');
+}
+
+for (let data in cards) {
+  cardsContainer.prepend(getCardElement(cards[data]));
+}
+
+btnClose.addEventListener('click', closeForm);
+btnEdit.addEventListener('click', closeForm);
+formSubmit.addEventListener('submit', handleFormSubmit);
