@@ -1,4 +1,4 @@
-let cards = [
+let initialCards = [
   {
     name: 'Yosemite Valley',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg',
@@ -61,8 +61,8 @@ function handleFormSubmit(evt) {
   form.classList.toggle('form_opened');
 }
 
-for (let data in cards) {
-  cardsContainer.prepend(getCardElement(cards[data]));
+for (let data in initialCards) {
+  cardsContainer.prepend(getCardElement(initialCards[data]));
 }
 
 btnClose.addEventListener('click', closeForm);
