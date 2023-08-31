@@ -1,4 +1,4 @@
-.form {
+.modal {
   display: none;
   position: fixed;
   top: 0;
@@ -9,13 +9,13 @@
   color: #000;
 }
 
-.form_opened {
+.modal_opened {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.form__container {
+.modal__container {
   background-color: #fff;
   position: relative;
   display: flex;
@@ -25,7 +25,7 @@
   width: 358px;
 }
 
-.form__btn-close {
+.modal__btn-close {
   position: absolute;
   top: -50px;
   right: -50px;
@@ -35,25 +35,25 @@
   padding: 0;
 }
 
-.form__btn-close-img {
+.modal__btn-close-img {
   width: 40px;
   height: 40px;
   fill: #000;
 }
 
-.form__title {
+.modal__title {
   font-size: 24px;
   font-weight: 900;
   margin: 0;
   margin-bottom: 30px;
 }
 
-.form__form {
+.modal__form {
   display: flex;
   flex-direction: column;
 }
 
-.form__input {
+.modal__form-input {
   font-size: 14px;
   font-weight: 400;
   height: 50px;
@@ -63,11 +63,11 @@
   margin-bottom: 8px;
 }
 
-.form__input:focus {
+.modal__form-input:focus {
   outline: none;
 }
 
-.form__btn-save {
+.modal__btn-save {
   padding: 0;
   background-color: #000;
   color: #fff;
@@ -80,28 +80,34 @@
 }
 
 @media (max-width: 600px) {
-  .form__btn-close {
-    top: -63px;
+  .modal__btn-close {
+    top: -40px;
     right: 0px;
   }
 
-  .form__container {
+  .modal__btn-close-img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .modal__container {
     width: 238px;
     padding: 25px 22px;
     margin: 0 19px;
   }
 
-  .form__title {
+  .modal__title {
     font-size: 18px;
   }
 
-  .form__btn-save {
+  .modal__btn-save {
     height: 46px;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 320px) {
-  .form__container {
+  .modal__container {
     width: 90%;
   }
 }
