@@ -32,13 +32,17 @@ const popupCardForm = document.forms['new-card-form'];
 const inputCardTitle = document.querySelector('#card-title');
 const inputCardLink = document.querySelector('#card-link');
 
-const btnClose = document.querySelectorAll('.popup__btn-close');
+const closeButtons = document.querySelectorAll('.popup__btn-close');
 const btnEdit = document.querySelector('.profile__btn_type_edit');
 const btnAdd = document.querySelector('.profile__btn_type_add');
 
 const cardsContainer = document.querySelector('.cards');
 
 const popupProfileForm = document.forms['profile-form'];
+const profileName = document.querySelector('.profile__name');
+const profileTitle = document.querySelector('.profile__title');
+const inputName = document.querySelector('#profile-name');
+const inputTitle = document.querySelector('#profile-title');
 
 const popupPicture = document.querySelector('.popup_picture');
 
@@ -75,10 +79,6 @@ function closePopup(popup) {
 
 function handleProfileSubmit(evt) {
   evt.preventDefault();
-  const profileName = document.querySelector('.profile__name');
-  const profileTitle = document.querySelector('.profile__title');
-  const inputName = document.querySelector('#profile-name');
-  const inputTitle = document.querySelector('#profile-title');
 
   profileName.textContent = inputName.value;
   profileTitle.textContent = inputTitle.value;
@@ -91,6 +91,7 @@ function handleCardSubmit(evt) {
   const data = { name: inputCardTitle.value, link: inputCardLink.value };
   cardsContainer.prepend(getCardElement(data));
   closePopup(popupAdd);
+  evt.target.reset();
 }
 
 // close the edit profile info popup
@@ -109,7 +110,7 @@ btnAdd.addEventListener('click', (evt) => {
   openPopup(popupAdd);
 });
 
-btnClose.forEach(function (btn) {
+closeButtons.forEach(function (btn) {
   btn.addEventListener('click', handleCloseButton);
 });
 
@@ -122,7 +123,7 @@ function handleLikeBtn(evt) {
 }
 
 function handleDeleteBtn(evt) {
-  evt.target.parentElement.remove();
+  evt.target.closest('.card').remove();
 }
 
 function handlePicturePopup(evt) {
@@ -133,5 +134,6 @@ function handlePicturePopup(evt) {
   popupPictureImg.src = evt.target.src;
   popupPictureImg.alt = evt.target.alt;
   popupPictureTitle.textContent = evt.target.alt;
+
   openPopup(popupPicture);
 }
