@@ -25,17 +25,24 @@ const initialCards = [
   },
 ];
 
-const btnClose = document.querySelector('.modal__btn-close');
+const btnClose = document.querySelectorAll('.modal__btn-close');
 const btnEdit = document.querySelector('.profile__btn_type_edit');
+const btnAdd = document.querySelector('.profile__btn_type_add');
 const modalSubmit = document.forms['profile-form'];
+const modalCardSubmin = document.forms['new-card-form'];
 
 const profileName = document.querySelector('.profile__name');
 const profileTitle = document.querySelector('.profile__title');
 
-const inputName = document.querySelector('#name');
+const inputCardTitle = document.querySelector('#card-title');
+const inputCardLink = document.querySelector('#card-link');
+
+const inputName = document.querySelector('.profile__name');
 const inputTitle = document.querySelector('#title');
 
-const modal = document.querySelector('.modal');
+const modalEdit = document.querySelector('.modal__edit');
+const modalAdd = document.querySelector('.modal__add');
+
 const cardsContainer = document.querySelector('.cards');
 
 function getCardElement(data) {
@@ -46,29 +53,56 @@ function getCardElement(data) {
   cardTitleElement.textContent = data.name;
   cardImgElement.src = data.link;
   cardImgElement.alt = data.name;
+
   return cardElement;
 }
 
-function toggleModal(evt) {
+// toggle adit and add modals
+function toggleModal(evt, modal) {
   modal.classList.toggle('modal_opened');
   evt.preventDefault();
 }
 
-function handlemodalSubmit(evt) {
+function handleProfileSubmit(evt) {
   evt.preventDefault();
+  const modal = this.closest('.modal');
   profileName.textContent = inputName.value;
   profileTitle.textContent = inputTitle.value;
-  modal.classList.toggle('modal_opened');
+  toggleModal(evt, modal);
 }
 
-for (let data in initialCards) {
-  cardsContainer.prepend(getCardElement(initialCards[data]));
+function handleCardSubmit(evt) {
+  evt.preventDefault();
+  const modal = this.closest('.modal');
+  const data = { name: inputCardTitle.value, link: inputCardLink.value };
+  cardsContainer.prepend(getCardElement(data));
+  toggleModal(evt, modal);
 }
 
-btnClose.addEventListener('click', toggleModal);
+// close the edit profile info modal
+function handleCloseButton(evt) {
+  const modal = this.closest('.modal');
+  toggleModal(evt, modal);
+}
 
-// btnEdit is responsible for opening the modal.
-// If it's removed, the edit button will no longer function.
-// I've also renamed the function to 'toggleModal' for better clarity, replacing the former name 'closeModal'.
-btnEdit.addEventListener('click', toggleModal);
-modalSubmit.addEventListener('submit', handlemodalSubmit);
+//render cards
+initialCards.forEach((card) => {
+  cardsContainer.prepend(getCardElement(card));
+});
+
+btnClose.forEach(function (btn) {
+  btn.addEventListener('click', handleCloseButton);
+});
+
+// submit the ptofile info
+modalSubmit.addEventListener('submit', handleProfileSubmit);
+
+modalCardSubmin.addEventListener('submit', handleCardSubmit);
+
+btnEdit.addEventListener('click', (evt) => {
+  toggleModal(evt, modalEdit);
+});
+
+btnAdd.addEventListener('click', (evt) => {
+  toggleModal(evt, modalAdd);
+});

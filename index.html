@@ -60,7 +60,7 @@
           <p class="footer__copyright">© 2022 Around The U.S.</p>
         </footer>
       </div>
-      <div class="modal">
+      <div class="modal modal__edit">
         <div class="modal__container">
           <button class="modal__btn-close">
             <img src="./images/close-icon.svg" alt="Close" class="modal__btn-close-img" />
@@ -70,6 +70,22 @@
             <input type="text" id="name" name="name" class="modal__form-input" value="Jacques Cousteau" />
 
             <input type="text" id="title" name="title" class="modal__form-input" value="Explorer" />
+
+            <button type="submit" class="modal__btn-save">Save</button>
+          </form>
+        </div>
+      </div>
+      <!-- new card modal -->
+      <div class="modal modal__add">
+        <div class="modal__container">
+          <button class="modal__btn-close">
+            <img src="./images/close-icon.svg" alt="Close" class="modal__btn-close-img" />
+          </button>
+          <h2 class="modal__title">New place</h2>
+          <form class="modal__form" name="new-card-form">
+            <input type="text" id="card-title" name="name" class="modal__form-input" value="Title" />
+
+            <input type="text" id="card-link" name="title" class="modal__form-input" value="Image link" />
 
             <button type="submit" class="modal__btn-save">Save</button>
           </form>
