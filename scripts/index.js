@@ -54,12 +54,14 @@ function getCardElement(data) {
   const cardImgElement = cardElement.querySelector('.card__img');
   const btnLike = cardElement.querySelector('.card__btn-like');
   const btnDelete = cardElement.querySelector('.card__btn-delete');
+
   cardTitleElement.textContent = data.name;
   cardImgElement.src = data.link;
   cardImgElement.alt = data.name;
 
   btnLike.addEventListener('click', handLikeBtn);
   btnDelete.addEventListener('click', handDeleteBtn);
+  cardImgElement.addEventListener('click', handOpenPictureModal);
   return cardElement;
 }
 
@@ -138,7 +140,7 @@ function handDeleteBtn(evt) {
 
 const btnLike = document.querySelectorAll('.card__btn-like');
 const btnDelete = document.querySelectorAll('.card__btn-delete');
-const card = document.querySelectorAll('.card');
+const cardImgElement = document.querySelectorAll('.card__img');
 
 btnLike.forEach(function (btn) {
   btn.addEventListener('click', handLikeBtn);
@@ -148,18 +150,18 @@ btnDelete.forEach(function (btn) {
   btn.addEventListener('click', handDeleteBtn);
 });
 
-// card.forEach(function (btn) {
-//   btn.addEventListener('click', handOpenPictureModal);
-// });
+cardImgElement.forEach(function (btn) {
+  btn.addEventListener('click', handOpenPictureModal);
+});
 
 const modalPictureImg = document.querySelector('.modal__picture-img');
 const modalPictureTitle = document.querySelector('.modal__picture-title');
 
-// function handOpenPictureModal(evt) {
-//   evt.preventDefault();
-//   console.log(this.children[0].src);
-//   modalPictureImg.src = this.children[0].src;
-//   modalPictureTitle.textContent = this.children[2].children[0].textContent;
-//   modalPicture.classList.toggle('modal_opened');
-//   console.log('picture opened');
-// }
+function handOpenPictureModal(evt) {
+  evt.preventDefault();
+  console.log(this.alt);
+  modalPictureImg.src = this.src;
+  modalPictureTitle.textContent = this.alt;
+  console.log(modalPictureTitle.textContent);
+  modalPicture.classList.toggle('modal_opened');
+}
