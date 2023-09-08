@@ -121,12 +121,10 @@ popupCardForm.addEventListener('submit', handleCardSubmit);
 function handleLikeBtn(evt) {
   evt.preventDefault();
   evt.target.classList.toggle('card__btn-like_active');
-  console.log('like toggled handLikeBtn');
 }
 
 function handleDeleteBtn(evt) {
   evt.target.parentElement.remove();
-  console.log('card removed');
 }
 
 function handlePicturePopup(evt) {
