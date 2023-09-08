@@ -18,8 +18,8 @@
   align-items: center;
   opacity: 1;
 
-  -webkit-animation: fadeIn 0.3s;
-  animation: fadeIn 1s;
+  -webkit-animation: fadein 0.3s;
+  animation: fadein 1s;
 }
 
 .modal__container {
@@ -142,7 +142,7 @@
   }
 }
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes fadein {
   from {
     opacity: 0;
   }
@@ -150,7 +150,7 @@
     opacity: 1;
   }
 }
-@keyframes fadeIn {
+@keyframes fadein {
   from {
     opacity: 0;
   }

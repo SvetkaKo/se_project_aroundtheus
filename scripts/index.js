@@ -38,12 +38,12 @@ const profileTitle = document.querySelector('.profile__title');
 const inputCardTitle = document.querySelector('#card-title');
 const inputCardLink = document.querySelector('#card-link');
 
-const inputName = document.querySelector('.profile__name');
-const inputTitle = document.querySelector('#title');
+const inputName = document.querySelector('#profile-name');
+const inputTitle = document.querySelector('#profile-title');
 
-const modalEdit = document.querySelector('.modal__edit');
-const modalAdd = document.querySelector('.modal__add');
-const modalPicture = document.querySelector('.modal__picture');
+const modalEdit = document.querySelector('.modal_edit');
+const modalAdd = document.querySelector('.modal_add');
+const modalPicture = document.querySelector('.modal_picture');
 
 const cardsContainer = document.querySelector('.cards');
 
@@ -59,6 +59,11 @@ function getCardElement(data) {
   return cardElement;
 }
 
+//render cards
+initialCards.forEach((card) => {
+  cardsContainer.prepend(getCardElement(card));
+});
+
 // toggle adit and add modals
 function toggleModal(evt, modal) {
   modal.classList.toggle('modal_opened');
@@ -71,8 +76,10 @@ function handleProfileSubmit(evt) {
   profileName.textContent = inputName.value;
   profileTitle.textContent = inputTitle.value;
   toggleModal(evt, modal);
+  console.log(profileName.textContent, profileTitle.textContent, inputName.value, inputTitle.value, 'new profile data submited');
 }
 
+// add new card and render it
 function handleCardSubmit(evt) {
   evt.preventDefault();
   const modal = this.closest('.modal');
@@ -88,11 +95,6 @@ function handleCloseButton(evt) {
   const modal = this.closest('.modal');
   toggleModal(evt, modal);
 }
-
-//render cards
-initialCards.forEach((card) => {
-  cardsContainer.prepend(getCardElement(card));
-});
 
 //there are two "close buttons", so I used querySelectorAll
 btnClose.forEach(function (btn) {
@@ -119,11 +121,13 @@ function handLikeBtn(evt) {
   evt.preventDefault();
   console.log('cliked');
   this.classList.toggle('card__btn-like_active');
+  console.log('liked btn toggled');
 }
 
 //feels like I should also update initialCards, though the function works visually
 function handDeleteBtn(evt) {
   this.parentElement.remove();
+  console.log('removed');
 }
 
 const btnLike = document.querySelectorAll('.card__btn-like');
