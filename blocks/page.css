@@ -9,6 +9,8 @@
   padding: 45px 30px 60px;
   margin: auto;
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 @media screen and (max-width: 780px) {
