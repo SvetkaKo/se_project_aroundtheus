@@ -8,6 +8,7 @@
   max-width: 880px;
   padding: 45px 30px 60px;
   margin: auto;
+  min-height: 100vh;
 }
 
 @media screen and (max-width: 780px) {

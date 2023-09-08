@@ -21,15 +21,6 @@
   transition: visibility 0.3s, opacity 0.3s linear;
 }
 
-/* .modal_closed {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  opacity: 0;
-  animation: fadeout 0.3s;
-} */
-
 .modal__container {
   position: relative;
   display: flex;
