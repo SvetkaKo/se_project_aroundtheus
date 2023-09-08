@@ -41,8 +41,6 @@ const cardsContainer = document.querySelector('.cards');
 const popupProfileForm = document.forms['profile-form'];
 
 const popupPicture = document.querySelector('.popup_picture');
-const popupPictureImg = document.querySelector('.popup__picture-img');
-const popupPictureTitle = document.querySelector('.popup__picture-title');
 
 function getCardElement(data) {
   const cardTemplate = document.querySelector('.template-card').content;
@@ -129,7 +127,11 @@ function handleDeleteBtn(evt) {
 
 function handlePicturePopup(evt) {
   evt.preventDefault();
-  popupPictureImg.src = this.src;
-  popupPictureTitle.textContent = this.alt;
+  const popupPictureImg = document.querySelector('.popup__picture-img');
+  const popupPictureTitle = document.querySelector('.popup__picture-title');
+
+  popupPictureImg.src = evt.target.src;
+  popupPictureImg.alt = evt.target.alt;
+  popupPictureTitle.textContent = evt.target.alt;
   openPopup(popupPicture);
 }
