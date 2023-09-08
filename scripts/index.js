@@ -70,14 +70,9 @@ initialCards.forEach((card) => {
   cardsContainer.prepend(getCardElement(card));
 });
 
+// toggle adit and add modals
 function toggleModal(evt, modal) {
-  if (modal.classList.contains('modal_opened')) {
-    modal.classList.add('modal_closed');
-    modal.classList.remove('modal_opened');
-  } else {
-    modal.classList.add('modal_opened');
-    modal.classList.remove('modal_closed');
-  }
+  modal.classList.toggle('modal_opened');
   evt.preventDefault();
 }
 
