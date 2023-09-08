@@ -42,13 +42,22 @@
   overflow: hidden;
 }
 
-.card__btn {
+.card__btn-like {
   border: none;
   background: none;
   transition: opacity 0.1s linear;
   cursor: pointer;
+  background-image: url(../images/like.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 21px;
+  height: 19px;
 }
 
-.card__btn:hover {
+.card__btn-like_active {
+  background-image: url(../images/like-active.svg);
+}
+
+.card__btn-like:hover {
   opacity: 0.5;
 }

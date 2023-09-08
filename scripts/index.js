@@ -28,6 +28,7 @@ const initialCards = [
 const btnClose = document.querySelectorAll('.modal__btn-close');
 const btnEdit = document.querySelector('.profile__btn_type_edit');
 const btnAdd = document.querySelector('.profile__btn_type_add');
+
 const modalSubmit = document.forms['profile-form'];
 const modalCardSubmin = document.forms['new-card-form'];
 
@@ -90,6 +91,7 @@ initialCards.forEach((card) => {
   cardsContainer.prepend(getCardElement(card));
 });
 
+//there are two "close buttons", so I used querySelectorAll
 btnClose.forEach(function (btn) {
   btn.addEventListener('click', handleCloseButton);
 });
@@ -97,12 +99,27 @@ btnClose.forEach(function (btn) {
 // submit the ptofile info
 modalSubmit.addEventListener('submit', handleProfileSubmit);
 
+//submit a new card
 modalCardSubmin.addEventListener('submit', handleCardSubmit);
 
+// open Edit modal
 btnEdit.addEventListener('click', (evt) => {
   toggleModal(evt, modalEdit);
 });
 
+// open Add modal
 btnAdd.addEventListener('click', (evt) => {
   toggleModal(evt, modalAdd);
+});
+
+function handLikeBtn(evt) {
+  evt.preventDefault();
+  console.log('cliked');
+  this.classList.toggle('card__btn-like_active');
+}
+
+const btnLike = document.querySelectorAll('.card__btn-like');
+
+btnLike.forEach(function (btn) {
+  btn.addEventListener('click', handLikeBtn);
 });
