@@ -4,6 +4,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .template-card {
@@ -42,14 +43,22 @@
   overflow: hidden;
 }
 
-.card__btn-like {
+.card__btn {
   border: none;
   background: none;
   transition: opacity 0.1s linear;
   cursor: pointer;
-  background-image: url(../images/like.svg);
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.card__btn:hover {
+  opacity: 0.5;
+}
+
+.card__btn-like {
+  background-image: url(../images/like.svg);
+
   width: 21px;
   height: 19px;
 }
@@ -58,6 +67,11 @@
   background-image: url(../images/like-active.svg);
 }
 
-.card__btn-like:hover {
-  opacity: 0.5;
+.card__btn-delete {
+  background-image: url(../images/delete.svg);
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 18px;
+  right: 15px;
 }

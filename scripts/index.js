@@ -76,8 +76,10 @@ function handleCardSubmit(evt) {
   evt.preventDefault();
   const modal = this.closest('.modal');
   const data = { name: inputCardTitle.value, link: inputCardLink.value };
+  initialCards.push(data);
   cardsContainer.prepend(getCardElement(data));
   toggleModal(evt, modal);
+  console.log(initialCards);
 }
 
 // close the edit profile info modal
@@ -118,8 +120,19 @@ function handLikeBtn(evt) {
   this.classList.toggle('card__btn-like_active');
 }
 
+//feels like I should also update initialCards, though the function works visually
+function handDeleteBtn(evt) {
+  console.log(this.parentElement);
+  this.parentElement.remove();
+}
+
 const btnLike = document.querySelectorAll('.card__btn-like');
+const btnDelete = document.querySelectorAll('.card__btn-delete');
 
 btnLike.forEach(function (btn) {
   btn.addEventListener('click', handLikeBtn);
+});
+
+btnDelete.forEach(function (btn) {
+  btn.addEventListener('click', handDeleteBtn);
 });
