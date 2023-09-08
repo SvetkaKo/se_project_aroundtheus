@@ -16,13 +16,31 @@
 }
 
 .modal__container {
-  background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.modal__container_type_form {
+  background-color: #fff;
   padding: 34px 36px 36px;
   border-radius: 10px;
   width: 358px;
+}
+
+.modal__container_type_picture .modal__btn-close {
+  top: -5px;
+  right: -5px;
+}
+
+.modal__container_type_picture {
+}
+
+.modal__picture-title {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 10px 0 0;
 }
 
 .modal__btn-close {
@@ -77,6 +95,9 @@
   height: 50px;
   font-size: 18px;
   font-weight: 400;
+}
+
+.modal__picture {
 }
 
 @media (max-width: 600px) {

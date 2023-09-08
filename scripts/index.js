@@ -43,6 +43,7 @@ const inputTitle = document.querySelector('#title');
 
 const modalEdit = document.querySelector('.modal__edit');
 const modalAdd = document.querySelector('.modal__add');
+const modalPicture = document.querySelector('.modal__picture');
 
 const cardsContainer = document.querySelector('.cards');
 
@@ -122,12 +123,12 @@ function handLikeBtn(evt) {
 
 //feels like I should also update initialCards, though the function works visually
 function handDeleteBtn(evt) {
-  console.log(this.parentElement);
   this.parentElement.remove();
 }
 
 const btnLike = document.querySelectorAll('.card__btn-like');
 const btnDelete = document.querySelectorAll('.card__btn-delete');
+const card = document.querySelectorAll('.card');
 
 btnLike.forEach(function (btn) {
   btn.addEventListener('click', handLikeBtn);
@@ -136,3 +137,19 @@ btnLike.forEach(function (btn) {
 btnDelete.forEach(function (btn) {
   btn.addEventListener('click', handDeleteBtn);
 });
+
+card.forEach(function (btn) {
+  btn.addEventListener('click', handOpenPictureModal);
+});
+
+const modalPictureImg = document.querySelector('.modal__picture-img');
+const modalPictureTitle = document.querySelector('.modal__picture-title');
+
+function handOpenPictureModal(evt) {
+  evt.preventDefault();
+
+  console.log(this.children[0].src);
+  modalPictureImg.src = this.children[0].src;
+  modalPictureTitle.textContent = this.children[2].children[0].textContent;
+  modalPicture.classList.toggle('modal_opened');
+}

@@ -60,7 +60,7 @@
         </footer>
       </div>
       <div class="modal modal__edit">
-        <div class="modal__container">
+        <div class="modal__container modal__container_type_form">
           <button class="modal__btn-close">
             <img src="./images/close-icon.svg" alt="Close" class="modal__btn-close-img" />
           </button>
@@ -76,11 +76,10 @@
       </div>
       <!-- new card modal -->
       <div class="modal modal__add">
-        <div class="modal__container">
+        <div class="modal__container modal__container_type_form">
           <button class="modal__btn-close">
             <img src="./images/close-icon.svg" alt="Close" class="modal__btn-close-img" />
           </button>
-          <h2 class="modal__title">New place</h2>
           <form class="modal__form" name="new-card-form">
             <input type="text" id="card-title" name="name" class="modal__form-input" value="Title" />
 
@@ -88,6 +87,16 @@
 
             <button type="submit" class="modal__btn-save">Save</button>
           </form>
+        </div>
+      </div>
+      <!-- modal image -->
+      <div class="modal modal__picture">
+        <div class="modal__container modal__container_type_picture">
+          <button class="modal__btn-close">
+            <img src="./images/close-icon.svg" alt="Close" class="modal__btn-close-img" />
+          </button>
+          <img src="./" alt="alt text" class="modal__picture-img" />
+          <p class="modal__picture-title"></p>
         </div>
       </div>
     </div>
