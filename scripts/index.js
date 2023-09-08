@@ -70,11 +70,15 @@ initialCards.forEach((card) => {
   cardsContainer.prepend(getCardElement(card));
 });
 
-// toggle adit and add modals
 function toggleModal(evt, modal) {
-  modal.classList.toggle('modal_opened');
+  if (modal.classList.contains('modal_opened')) {
+    modal.classList.add('modal_closed');
+    modal.classList.remove('modal_opened');
+  } else {
+    modal.classList.add('modal_opened');
+    modal.classList.remove('modal_closed');
+  }
   evt.preventDefault();
-  console.log('modal toggled');
 }
 
 function handleProfileSubmit(evt) {
@@ -163,5 +167,5 @@ function handOpenPictureModal(evt) {
   modalPictureImg.src = this.src;
   modalPictureTitle.textContent = this.alt;
   console.log(modalPictureTitle.textContent);
-  modalPicture.classList.toggle('modal_opened');
+  toggleModal(evt, modalPicture);
 }
