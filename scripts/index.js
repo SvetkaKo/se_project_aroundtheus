@@ -28,9 +28,9 @@ const initialCards = [
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 
-const popupCardForm = document.forms['new-card-form'];
-const inputCardTitle = document.querySelector('#card-title');
-const inputCardLink = document.querySelector('#card-link');
+const popupCardForm = document.forms.newCardForm;
+const inputCardTitle = popupCardForm.elements.cardName;
+const inputCardLink = popupCardForm.elements.cardTitle;
 
 const closeButtons = document.querySelectorAll('.popup__btn-close');
 const btnEdit = document.querySelector('.profile__btn_type_edit');
@@ -38,11 +38,12 @@ const btnAdd = document.querySelector('.profile__btn_type_add');
 
 const cardsContainer = document.querySelector('.cards');
 
-const popupProfileForm = document.forms['profile-form'];
+const popupProfileForm = document.forms.profileForm;
+const inputName = popupProfileForm.elements.profileName;
+const inputTitle = popupProfileForm.elements.profileTitle;
+
 const profileName = document.querySelector('.profile__name');
 const profileTitle = document.querySelector('.profile__title');
-const inputName = document.querySelector('#profile-name');
-const inputTitle = document.querySelector('#profile-title');
 
 const popupPicture = document.querySelector('.popup_picture');
 
@@ -79,7 +80,6 @@ function closePopup(popup) {
 
 function handleProfileSubmit(evt) {
   evt.preventDefault();
-
   profileName.textContent = inputName.value;
   profileTitle.textContent = inputTitle.value;
   closePopup(popupEdit);
@@ -114,9 +114,6 @@ closeButtons.forEach(function (btn) {
   btn.addEventListener('click', handleCloseButton);
 });
 
-popupProfileForm.addEventListener('submit', handleProfileSubmit);
-popupCardForm.addEventListener('submit', handleCardSubmit);
-
 function handleLikeBtn(evt) {
   evt.preventDefault();
   evt.target.classList.toggle('card__btn-like_active');
@@ -137,3 +134,78 @@ function handlePicturePopup(evt) {
 
   openPopup(popupPicture);
 }
+
+function showInputError(formElement, inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__form-input-error');
+  errorElement.classList.add('popup__input-error_active');
+  errorElement.textContent = errorMessage;
+}
+
+function hideInputError(formElement, inputElement) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('popup__form-input-error');
+  errorElement.classList.remove('popup__input-error_active');
+  errorElement.textContent = '';
+}
+
+function checkInputValidity(formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+}
+
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+
+function toggleButtonState(buttonElement, inputList) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add('popup__btn-submit_disabled');
+    buttonElement.disabled = true;
+  } else {
+    buttonElement.classList.remove('popup__btn-submit_disabled');
+    buttonElement.disabled = false;
+  }
+}
+
+function setEventListeners(formElement) {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__form-input'));
+  const buttonElement = formElement.querySelector('.popup__btn-submit');
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+      toggleButtonState(buttonElement, inputList);
+    });
+  });
+}
+
+// function togglePopup() {
+//   popupProfileForm.addEventListener('keydown', (evt) => {
+//     evt.preventDefault();
+//     if ((evt.key = 'Enter')) {
+//       handleCloseButton();
+//     }
+//     if ((evt.key = 'Esc')) {
+//       handleCloseButton();
+//     }
+//   });
+// }
+
+// togglePopup();
+
+function enableValidation() {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement);
+  });
+}
+
+enableValidation();
+
+popupProfileForm.addEventListener('submit', handleProfileSubmit);
+popupCardForm.addEventListener('submit', handleCardSubmit);

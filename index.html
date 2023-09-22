@@ -65,12 +65,30 @@
             <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
           </button>
           <h2 class="popup__title">Edit Profile</h2>
-          <form class="popup__form" name="profile-form">
-            <input type="text" id="profile-name" name="name" class="popup__form-input" value="Jacques Cousteau" />
-
-            <input type="text" id="profile-title" name="title" class="popup__form-input" value="Explorer" />
-
-            <button type="submit" class="popup__btn-save">Save</button>
+          <form class="popup__form" name="profileForm">
+            <input
+              required
+              type="text"
+              id="profile-name"
+              minlength="2"
+              maxlength="40"
+              name="profileName"
+              class="popup__form-input"
+              value="Jacques Cousteau"
+            />
+            <span class="popup__input-error profile-name-error"></span>
+            <input
+              required
+              type="text"
+              id="profile-title"
+              minlength="2"
+              maxlength="200"
+              name="profileTitle"
+              class="popup__form-input"
+              value="Explorer"
+            />
+            <span class="popup__input-error profile-title-error"></span>
+            <button disabled type="submit" class="popup__btn-submit">Save</button>
           </form>
         </div>
       </div>
@@ -81,12 +99,22 @@
             <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
           </button>
           <h2 class="popup__title">New Place</h2>
-          <form class="popup__form" name="new-card-form">
-            <input type="text" id="card-title" name="name" class="popup__form-input" value="" placeholder="Title" />
-
-            <input type="text" id="card-link" name="title" class="popup__form-input" value="" placeholder="Image link" />
-
-            <button type="submit" class="popup__btn-save">Save</button>
+          <form class="popup__form" name="newCardForm">
+            <input
+              required
+              type="text"
+              id="card-title"
+              minlength="1"
+              maxlength="30"
+              name="cardName"
+              class="popup__form-input"
+              value=""
+              placeholder="Title"
+            />
+            <span class="popup__input-error card-title-error"></span>
+            <input required type="url" id="card-link" name="cardTitle" class="popup__form-input" value="" placeholder="Image link" />
+            <span class="popup__input-error card-link-error"></span>
+            <button disabled type="submit" class="popup__btn-submit popup__btn-submit_disabled">Save</button>
           </form>
         </div>
       </div>
