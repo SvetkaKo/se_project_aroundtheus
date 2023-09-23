@@ -70,14 +70,45 @@ initialCards.forEach((card) => {
   cardsContainer.prepend(getCardElement(card));
 });
 
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
+//close any popup
+function handleCloseButton(evt) {
+  const popup = evt.target.closest('.popup');
+  closePopup(popup);
 }
 
+closeButtons.forEach(function (btn) {
+  btn.addEventListener('click', handleCloseButton);
+});
+
+// close any popup and remove event listeners
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('click', handleOverlayClick);
+  document.removeEventListener('keydown', handleEscapeButton);
 }
 
+// open any popup and add event listeners
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('click', handleOverlayClick);
+  document.addEventListener('keydown', handleEscapeButton);
+}
+
+function handleOverlayClick(evt) {
+  const popup = document.querySelector('.popup_opened');
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(popup);
+  }
+}
+
+function handleEscapeButton(evt) {
+  const popup = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape') {
+    closePopup(popup);
+  }
+}
+
+//submit new profile info
 function handleProfileSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
@@ -85,19 +116,13 @@ function handleProfileSubmit(evt) {
   closePopup(popupEdit);
 }
 
-// add new card and render it
+//submit and render a new card
 function handleCardSubmit(evt) {
   evt.preventDefault();
   const data = { name: inputCardTitle.value, link: inputCardLink.value };
   cardsContainer.prepend(getCardElement(data));
   closePopup(popupAdd);
   evt.target.reset();
-}
-
-// close the edit profile info popup
-function handleCloseButton(evt) {
-  const popup = evt.target.closest('.popup');
-  closePopup(popup);
 }
 
 // open Edit popup
@@ -108,10 +133,6 @@ btnEdit.addEventListener('click', (evt) => {
 // open Add popup
 btnAdd.addEventListener('click', (evt) => {
   openPopup(popupAdd);
-});
-
-closeButtons.forEach(function (btn) {
-  btn.addEventListener('click', handleCloseButton);
 });
 
 function handleLikeBtn(evt) {
@@ -134,78 +155,6 @@ function handlePicturePopup(evt) {
 
   openPopup(popupPicture);
 }
-
-function showInputError(formElement, inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__form-input-error');
-  errorElement.classList.add('popup__input-error_active');
-  errorElement.textContent = errorMessage;
-}
-
-function hideInputError(formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__form-input-error');
-  errorElement.classList.remove('popup__input-error_active');
-  errorElement.textContent = '';
-}
-
-function checkInputValidity(formElement, inputElement) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-}
-
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-}
-
-function toggleButtonState(buttonElement, inputList) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__btn-submit_disabled');
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.remove('popup__btn-submit_disabled');
-    buttonElement.disabled = false;
-  }
-}
-
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__form-input'));
-  const buttonElement = formElement.querySelector('.popup__btn-submit');
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(buttonElement, inputList);
-    });
-  });
-}
-
-// function togglePopup() {
-//   popupProfileForm.addEventListener('keydown', (evt) => {
-//     evt.preventDefault();
-//     if ((evt.key = 'Enter')) {
-//       handleCloseButton();
-//     }
-//     if ((evt.key = 'Esc')) {
-//       handleCloseButton();
-//     }
-//   });
-// }
-
-// togglePopup();
-
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-  formList.forEach((formElement) => {
-    setEventListeners(formElement);
-  });
-}
-
-enableValidation();
 
 popupProfileForm.addEventListener('submit', handleProfileSubmit);
 popupCardForm.addEventListener('submit', handleCardSubmit);

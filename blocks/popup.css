@@ -96,7 +96,7 @@
   outline: none;
 }
 
-.popup__form-input-error {
+.popup__input_type_error {
   border-color: #f00;
 }
 
