@@ -83,27 +83,27 @@ closeButtons.forEach(function (btn) {
 // close any popup and remove event listeners
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('click', handleOverlayClick);
+  document.removeEventListener('mousedown', handleOverlayClick);
   document.removeEventListener('keydown', handleEscapeButton);
 }
 
 // open any popup and add event listeners
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('click', handleOverlayClick);
+  document.addEventListener('mousedown', handleOverlayClick);
   document.addEventListener('keydown', handleEscapeButton);
 }
 
 function handleOverlayClick(evt) {
-  const popup = document.querySelector('.popup_opened');
   if (evt.target.classList.contains('popup_opened')) {
+    const popup = document.querySelector('.popup_opened');
     closePopup(popup);
   }
 }
 
 function handleEscapeButton(evt) {
-  const popup = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
     closePopup(popup);
   }
 }
@@ -145,7 +145,6 @@ function handleDeleteBtn(evt) {
 }
 
 function handlePicturePopup(evt) {
-  evt.preventDefault();
   const popupPictureImg = document.querySelector('.popup__picture-img');
   const popupPictureTitle = document.querySelector('.popup__picture-title');
 

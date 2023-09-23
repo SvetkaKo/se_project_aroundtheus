@@ -63,6 +63,10 @@
   padding: 0;
 }
 
+.popup__btn-close:hover {
+  opacity: 0.6;
+}
+
 .popup__btn-close-img {
   width: 40px;
   height: 40px;
@@ -110,6 +114,11 @@
   height: 50px;
   font-size: 18px;
   font-weight: 400;
+  cursor: pointer;
+}
+
+.popup__btn-submit:hover {
+  opacity: 0.8;
 }
 
 .popup__btn-submit_disabled {
