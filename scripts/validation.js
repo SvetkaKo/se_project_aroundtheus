@@ -30,9 +30,11 @@ function toggleButtonState(buttonElement, inputList, options) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(options.inactiveButtonClass);
     buttonElement.disabled = true;
+    console.log('toggled true');
   } else {
     buttonElement.classList.remove(options.inactiveButtonClass);
     buttonElement.disabled = false;
+    console.log('toggled false');
   }
 }
 
