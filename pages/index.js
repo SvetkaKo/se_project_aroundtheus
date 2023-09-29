@@ -1,3 +1,5 @@
+import Card from '../components/Card.js';
+
 const initialCards = [
   {
     name: 'Yosemite Valley',
@@ -46,29 +48,6 @@ const profileName = document.querySelector('.profile__name');
 const profileTitle = document.querySelector('.profile__title');
 
 const popupPicture = document.querySelector('.popup_picture');
-
-function getCardElement(data) {
-  const cardTemplate = document.querySelector('.template-card').content;
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardTitleElement = cardElement.querySelector('.card__title');
-  const cardImgElement = cardElement.querySelector('.card__img');
-  const cardBtnLike = cardElement.querySelector('.card__btn-like');
-  const cardBtnDelete = cardElement.querySelector('.card__btn-delete');
-
-  cardTitleElement.textContent = data.name;
-  cardImgElement.src = data.link;
-  cardImgElement.alt = data.name;
-
-  cardBtnLike.addEventListener('click', handleLikeBtn);
-  cardBtnDelete.addEventListener('click', handleDeleteBtn);
-  cardImgElement.addEventListener('click', handlePicturePopup);
-  return cardElement;
-}
-
-//render cards
-initialCards.forEach((card) => {
-  cardsContainer.prepend(getCardElement(card));
-});
 
 //close any popup
 function handleCloseButton(evt) {
@@ -135,25 +114,26 @@ btnAdd.addEventListener('click', (evt) => {
   openPopup(popupAdd);
 });
 
-function handleLikeBtn(evt) {
-  evt.preventDefault();
-  evt.target.classList.toggle('card__btn-like_active');
-}
+popupProfileForm.addEventListener('submit', handleProfileSubmit);
+popupCardForm.addEventListener('submit', handleCardSubmit);
 
-function handleDeleteBtn(evt) {
-  evt.target.closest('.card').remove();
-}
+// create cards and render them
+initialCards.forEach((item) => {
+  const card = new Card(item, '.template-card', handlePicturePopup);
+  const cardElement = card.getCardElement();
+  cardsContainer.prepend(cardElement);
+});
 
-function handlePicturePopup(evt) {
+// !!!!! I cannot acsess private properties of Card  !!!!
+function handlePicturePopup(card) {
+  console.log(this);
+  const popupPicture = document.querySelector('.popup_picture');
   const popupPictureImg = document.querySelector('.popup__picture-img');
   const popupPictureTitle = document.querySelector('.popup__picture-title');
 
-  popupPictureImg.src = evt.target.src;
-  popupPictureImg.alt = evt.target.alt;
-  popupPictureTitle.textContent = evt.target.alt;
+  popupPictureImg.src = card._link; //this feels wrong
+  popupPictureImg.alt = card._name; //this feels wrong
+  popupPictureTitle.textContent = card._name; //this feels wrong
 
   openPopup(popupPicture);
 }
-
-popupProfileForm.addEventListener('submit', handleProfileSubmit);
-popupCardForm.addEventListener('submit', handleCardSubmit);
