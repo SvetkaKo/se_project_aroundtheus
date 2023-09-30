@@ -12,7 +12,20 @@ export default class Card {
     return cardElement;
   }
 
-  //public method that returns a card
+  _setEventListeners() {
+    this._cardImgElement.addEventListener('click', () => {
+      this._handleImageClick(this);
+    });
+
+    this._btnLike.addEventListener('click', (evt) => {
+      evt.target.classList.toggle('card__btn-like_active');
+    });
+
+    this._btnDelete.addEventListener('click', (evt) => {
+      evt.target.closest('.card').remove();
+    });
+  }
+
   getCardElement() {
     this._element = this._getTemplate();
     this._cardTitleElement = this._element.querySelector('.card__title');
@@ -27,43 +40,4 @@ export default class Card {
     this._setEventListeners();
     return this._element;
   }
-
-  _setEventListeners() {
-    this._cardImgElement.addEventListener('click', () => {
-      this._handleImageClick(this);
-    });
-
-    this._btnLike.addEventListener('click', (evt) => {
-      evt.target.classList.toggle('card__btn-like_active');
-    });
-
-    this._btnDelete.addEventListener('click', (evt) => {
-      evt.target.closest('.card').remove();
-    });
-  }
 }
-
-// //create cards and render them
-// initialCards.forEach((item) => {
-//   const card = new Card(item, '.template-card', handlePicturePopup);
-//   const cardElement = card.getCardElement();
-//   cardsContainer.prepend(cardElement);
-// });
-
-// function openPopup(popup) {
-//   popup.classList.add('popup_opened');
-//   //   document.addEventListener('mousedown', handleOverlayClick);
-//   //   document.addEventListener('keydown', handleEscapeButton);
-// }
-
-// function handlePicturePopup(card) {
-//   const popupPicture = document.querySelector('.popup_picture');
-//   const popupPictureImg = document.querySelector('.popup__picture-img');
-//   const popupPictureTitle = document.querySelector('.popup__picture-title');
-//   console.log(card);
-//   //   popupPictureImg.src = evt.target.src;
-//   //   popupPictureImg.alt = evt.target.alt;
-//   //   popupPictureTitle.textContent = evt.target.alt;
-
-//   openPopup(popupPicture);
-// }

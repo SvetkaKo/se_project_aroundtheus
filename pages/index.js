@@ -1,4 +1,5 @@
 import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
 
 const initialCards = [
   {
@@ -46,8 +47,6 @@ const inputTitle = popupProfileForm.elements.profileTitle;
 
 const profileName = document.querySelector('.profile__name');
 const profileTitle = document.querySelector('.profile__title');
-
-const popupPicture = document.querySelector('.popup_picture');
 
 //close any popup
 function handleCloseButton(evt) {
@@ -124,16 +123,29 @@ initialCards.forEach((item) => {
   cardsContainer.prepend(cardElement);
 });
 
-// !!!!! I cannot acsess private properties of Card  !!!!
 function handlePicturePopup(card) {
-  console.log(this);
   const popupPicture = document.querySelector('.popup_picture');
   const popupPictureImg = document.querySelector('.popup__picture-img');
   const popupPictureTitle = document.querySelector('.popup__picture-title');
 
-  popupPictureImg.src = card._link; //this feels wrong
-  popupPictureImg.alt = card._name; //this feels wrong
-  popupPictureTitle.textContent = card._name; //this feels wrong
+  popupPictureImg.src = card._link;
+  popupPictureImg.alt = card._name;
+  popupPictureTitle.textContent = card._name;
 
   openPopup(popupPicture);
 }
+
+const options = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__form-input',
+  submitButtonSelector: '.popup__btn-submit',
+  inactiveButtonClass: 'popup__btn-submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+};
+
+const formList = Array.from(document.querySelectorAll(options.formSelector));
+formList.forEach((form) => {
+  const formValidator = new FormValidator(options, form);
+  formValidator.enableValidation();
+});
