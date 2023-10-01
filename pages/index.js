@@ -94,12 +94,23 @@ function handleProfileSubmit(evt) {
   closePopup(popupEdit);
 }
 
+function disableSubmitButton(popup) {
+  const button = popup.querySelector('.popup__btn-submit');
+  if (!button.disabled) {
+    button.disabled = true;
+    button.classList.add('popup__btn-submit_disabled');
+  }
+}
+
 //submit and render a new card
 function handleCardSubmit(evt) {
   evt.preventDefault();
   const data = { name: inputCardTitle.value, link: inputCardLink.value };
-  cardsContainer.prepend(getCardElement(data));
+  const card = new Card(data, '.template-card', handlePicturePopup);
+  const cardElement = card.getCardElement();
+  cardsContainer.prepend(cardElement);
   closePopup(popupAdd);
+  disableSubmitButton(popupAdd);
   evt.target.reset();
 }
 
