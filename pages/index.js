@@ -28,6 +28,15 @@ const initialCards = [
   },
 ];
 
+const options = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__form-input',
+  submitButtonSelector: '.popup__btn-submit',
+  inactiveButtonClass: 'popup__btn-submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+};
+
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 
@@ -65,11 +74,23 @@ function closePopup(popup) {
   document.removeEventListener('keydown', handleEscapeButton);
 }
 
-// open any popup and add event listeners
+// open any popup and add event listeners, enable validation
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('mousedown', handleOverlayClick);
   document.addEventListener('keydown', handleEscapeButton);
+  validateForm(popup);
+}
+
+//enable validation
+function validateForm(popup) {
+  const form = popup.querySelector(options.formSelector);
+  const submitButton = popup.querySelector('.popup__btn-submit');
+  const formValidator = new FormValidator(options, form);
+  formValidator.enableValidation();
+  if (submitButton.disabled) {
+    console.log(`don't know what to do`);
+  }
 }
 
 function handleOverlayClick(evt) {
@@ -94,23 +115,19 @@ function handleProfileSubmit(evt) {
   closePopup(popupEdit);
 }
 
-function disableSubmitButton(popup) {
-  const button = popup.querySelector('.popup__btn-submit');
-  if (!button.disabled) {
-    button.disabled = true;
-    button.classList.add('popup__btn-submit_disabled');
-  }
-}
-
 //submit and render a new card
 function handleCardSubmit(evt) {
   evt.preventDefault();
+  const form = popupAdd.querySelector(options.formSelector);
   const data = { name: inputCardTitle.value, link: inputCardLink.value };
   const card = new Card(data, '.template-card', handlePicturePopup);
   const cardElement = card.getCardElement();
   cardsContainer.prepend(cardElement);
   closePopup(popupAdd);
-  disableSubmitButton(popupAdd);
+
+  const formValidator = new FormValidator(options, form);
+  formValidator.disableSubmitButton();
+
   evt.target.reset();
 }
 
@@ -146,17 +163,8 @@ function handlePicturePopup(card) {
   openPopup(popupPicture);
 }
 
-const options = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__form-input',
-  submitButtonSelector: '.popup__btn-submit',
-  inactiveButtonClass: 'popup__btn-submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active',
-};
-
-const formList = Array.from(document.querySelectorAll(options.formSelector));
-formList.forEach((form) => {
-  const formValidator = new FormValidator(options, form);
-  formValidator.enableValidation();
-});
+// const formList = Array.from(document.querySelectorAll(options.formSelector));
+// formList.forEach((form) => {
+//   const formValidator = new FormValidator(options, form);
+//   formValidator.enableValidation();
+// });

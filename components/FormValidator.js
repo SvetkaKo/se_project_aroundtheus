@@ -53,6 +53,19 @@ export default class FormValidator {
     });
   }
 
+  disableSubmitButton() {
+    const button = this._form.querySelector('.popup__btn-submit');
+    if (!button.disabled) {
+      button.disabled = true;
+      button.classList.add('popup__btn-submit_disabled');
+    }
+  }
+
+  //   resetValidation() {
+  //disable the submit button
+  //reset validation errors
+  //   }
+
   enableValidation() {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
