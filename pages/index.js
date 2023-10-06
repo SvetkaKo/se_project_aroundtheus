@@ -1,5 +1,6 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+import Popup from '../components/Popup.js';
 
 const initialCards = [
   {
@@ -44,7 +45,6 @@ const popupCardForm = document.forms.newCardForm;
 const inputCardTitle = popupCardForm.elements.cardName;
 const inputCardLink = popupCardForm.elements.cardTitle;
 
-const closeButtons = document.querySelectorAll('.popup__btn-close');
 const btnEdit = document.querySelector('.profile__btn_type_edit');
 const btnAdd = document.querySelector('.profile__btn_type_add');
 
@@ -56,41 +56,6 @@ const inputTitle = popupProfileForm.elements.profileTitle;
 
 const profileName = document.querySelector('.profile__name');
 const profileTitle = document.querySelector('.profile__title');
-
-function handleCloseButton(evt) {
-  const popup = evt.target.closest('.popup');
-  closePopup(popup);
-}
-
-closeButtons.forEach(function (btn) {
-  btn.addEventListener('click', handleCloseButton);
-});
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('mousedown', handleOverlayClick);
-  document.removeEventListener('keydown', handleEscapeButton);
-}
-
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('mousedown', handleOverlayClick);
-  document.addEventListener('keydown', handleEscapeButton);
-}
-
-function handleOverlayClick(evt) {
-  if (evt.target.classList.contains('popup_opened')) {
-    const popup = document.querySelector('.popup_opened');
-    closePopup(popup);
-  }
-}
-
-function handleEscapeButton(evt) {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_opened');
-    closePopup(popup);
-  }
-}
 
 function handleProfileSubmit(evt) {
   evt.preventDefault();
@@ -110,16 +75,6 @@ function handleCardSubmit(evt) {
 
   evt.target.reset();
 }
-
-// open Edit popup
-btnEdit.addEventListener('click', (evt) => {
-  openPopup(popupEdit);
-});
-
-// open Add popup
-btnAdd.addEventListener('click', (evt) => {
-  openPopup(popupAdd);
-});
 
 popupProfileForm.addEventListener('submit', handleProfileSubmit);
 popupCardForm.addEventListener('submit', handleCardSubmit);
@@ -150,4 +105,16 @@ newCardFormValidator.enableValidation();
 // create cards and render them
 initialCards.forEach((item) => {
   createCard(item);
+});
+
+btnAdd.addEventListener('click', (evt) => {
+  const popup = new Popup(popupAdd, 'popup__opened');
+  popup.open();
+  popup.setEventListeners();
+});
+
+btnEdit.addEventListener('click', (evt) => {
+  const popup = new Popup(popupAdd, 'popup__opened');
+  popup.open();
+  popup.setEventListeners();
 });
