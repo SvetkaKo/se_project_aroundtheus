@@ -1,6 +1,8 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Popup from '../components/Popup.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import Section from '../components/Section.js';
 
 const initialCards = [
   {
@@ -49,6 +51,7 @@ const btnEdit = document.querySelector('.profile__btn_type_edit');
 const btnAdd = document.querySelector('.profile__btn_type_add');
 
 const cardsContainer = document.querySelector('.cards');
+const containerSelector = document.querySelector('.cards');
 
 const popupProfileForm = document.forms.profileForm;
 const inputName = popupProfileForm.elements.profileName;
@@ -66,13 +69,10 @@ function handleProfileSubmit(evt) {
 
 function handleCardSubmit(evt) {
   evt.preventDefault();
-
   const cardData = { name: inputCardTitle.value, link: inputCardLink.value };
   createCard(cardData);
   closePopup(popupAdd);
-
   newCardFormValidator.disableSubmitButton();
-
   evt.target.reset();
 }
 
@@ -80,6 +80,7 @@ popupProfileForm.addEventListener('submit', handleProfileSubmit);
 popupCardForm.addEventListener('submit', handleCardSubmit);
 
 function createCard(cardData) {
+  console.log(cardData);
   const card = new Card(cardData, '.template-card', handlePicturePopup);
   const cardElement = card.getCardElement();
   cardsContainer.prepend(cardElement);
@@ -97,15 +98,17 @@ function handlePicturePopup(card) {
   openPopup(popupPicture);
 }
 
-const profileFormValidator = new FormValidator(options, popupProfileForm);
-profileFormValidator.enableValidation();
-const newCardFormValidator = new FormValidator(options, popupCardForm);
-newCardFormValidator.enableValidation();
+const cardList = new Section(
+  {
+    data: initialCards,
+    renderer: (item) => {
+      createCard(item);
+    },
+  },
+  containerSelector // .cards
+);
 
-// create cards and render them
-initialCards.forEach((item) => {
-  createCard(item);
-});
+cardList.renderItems();
 
 btnAdd.addEventListener('click', (evt) => {
   const popup = new Popup(popupAdd, 'popup__opened');
@@ -118,3 +121,9 @@ btnEdit.addEventListener('click', (evt) => {
   popup.open();
   popup.setEventListeners();
 });
+
+const profileFormValidator = new FormValidator(options, popupProfileForm);
+profileFormValidator.enableValidation();
+
+const newCardFormValidator = new FormValidator(options, popupCardForm);
+newCardFormValidator.enableValidation();
