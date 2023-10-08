@@ -1,18 +1,19 @@
 export default class Popup {
-  constructor(popup, popupActiveClass) {
+  constructor(popup) {
     this._popup = popup;
-    this._popupActiveClass = popupActiveClass;
+    this._popupActiveClass = 'popup_opened'; // i don't use it anywhere, but i want to get rid of "popup_opened" selector in my code
+    this._closeButton = this._popup.querySelector('.popup__btn-close');
     this._isOpen = false;
   }
 
   open() {
     this._isOpen = true;
-    this._popup.classList.add('popup_opened');
-    this._closeButton = this._popup.querySelector('.popup__btn-close');
+    this._popup.classList.add(this._popupActiveClass);
   }
+
   close() {
     this._isOpen = false;
-    this._popup.classList.remove('popup_opened');
+    this._popup.classList.remove(this._popupActiveClass);
   }
 
   setEventListeners() {
