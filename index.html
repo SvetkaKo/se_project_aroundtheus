@@ -59,7 +59,7 @@
           <p class="footer__copyright">© 2022 Around The U.S.</p>
         </footer>
       </div>
-      <div class="popup popup_edit">
+      <div class="popup popup_edit-profile">
         <div class="popup__container popup__container_type_form">
           <button class="popup__btn-close">
             <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
@@ -93,7 +93,7 @@
         </div>
       </div>
       <!-- new card popup -->
-      <div class="popup popup_add">
+      <div class="popup popup_new-card">
         <div class="popup__container popup__container_type_form">
           <button class="popup__btn-close">
             <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
@@ -106,13 +106,13 @@
               id="card-title"
               minlength="2"
               maxlength="30"
-              name="cardName"
+              name="name"
               class="popup__form-input"
               value=""
               placeholder="Title"
             />
             <span class="popup__input-error card-title-error"></span>
-            <input required type="url" id="card-link" name="cardTitle" class="popup__form-input" value="" placeholder="Image link" />
+            <input required type="url" id="card-link" name="link" class="popup__form-input" value="" placeholder="Image link" />
             <span class="popup__input-error card-link-error"></span>
             <button disabled type="submit" class="popup__btn-submit popup__btn-submit_disabled">Save</button>
           </form>
