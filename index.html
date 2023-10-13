@@ -30,8 +30,8 @@
             <img src="./images/jacques-cousteau.jpg" alt="Profile picture" class="profile__img" />
 
             <div class="profile__info">
-              <h1 class="profile__name">Jacques Cousteau</h1>
-              <p class="profile__title">Explorer</p>
+              <h1 class="profile__name"></h1>
+              <p class="profile__title"></p>
               <button class="profile__btn profile__btn_type_edit" type="button">
                 <img src="./images/btn-edit.svg" alt="Edit" class="profile__btn-edit-img" />
               </button>
@@ -66,27 +66,9 @@
           </button>
           <h2 class="popup__title">Edit Profile</h2>
           <form class="popup__form" name="profileForm">
-            <input
-              required
-              type="text"
-              id="profile-name"
-              minlength="2"
-              maxlength="40"
-              name="profileName"
-              class="popup__form-input"
-              value="Jacques Cousteau"
-            />
+            <input required type="text" id="profile-name" minlength="2" maxlength="40" name="profileName" class="popup__form-input" />
             <span class="popup__input-error profile-name-error"></span>
-            <input
-              required
-              type="text"
-              id="profile-title"
-              minlength="2"
-              maxlength="200"
-              name="profileTitle"
-              class="popup__form-input"
-              value="Explorer"
-            />
+            <input required type="text" id="profile-title" minlength="2" maxlength="200" name="profileTitle" class="popup__form-input" />
             <span class="popup__input-error profile-title-error"></span>
             <button type="submit" class="popup__btn-submit">Save</button>
           </form>

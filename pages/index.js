@@ -3,7 +3,7 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import Popup from '../components/Popup.js';
+import UserInfo from '../components/UserInfo.js';
 
 const initialCards = [
   {
@@ -41,8 +41,11 @@ const options = {
   errorClass: 'popup__input-error_active',
 };
 
-const popupEditProfile = document.querySelector('.popup_edit-profile');
-const popupNewCard = document.querySelector('.popup_new-card');
+const profileName = document.querySelector('.profile__name').textContent;
+const profileTitle = document.querySelector('.profile__title').textContent;
+
+const editProfile = document.querySelector('.popup_edit-profile');
+const newCard = document.querySelector('.popup_new-card');
 
 const popupCardForm = document.forms.newCardForm;
 
@@ -54,22 +57,7 @@ const containerSelector = document.querySelector('.cards');
 
 const popupProfileForm = document.forms.profileForm;
 
-const profileName = document.querySelector('.profile__name');
-const profileTitle = document.querySelector('.profile__title');
-
 const popupPicture = document.querySelector('.popup_picture');
-
-function createCard(cardData) {
-  const card = new Card(cardData, '.template-card', handlePicturePopup);
-  const cardElement = card.getCardElement();
-  cardsContainer.prepend(cardElement);
-}
-
-function handlePicturePopup(card) {
-  const popupImage = new PopupWithImage(popupPicture, card);
-  popupImage.open();
-  popupImage.setEventListeners();
-}
 
 const cardList = new Section(
   {
@@ -83,23 +71,43 @@ const cardList = new Section(
 
 cardList.renderItems();
 
-btnNewCard.addEventListener('click', (evt) => {
-  const popup = new PopupWithForm(popupNewCard, (data) => {
-    console.log(data);
-    createCard(data);
-  });
-  popup.open();
-  popup.setEventListeners();
+function createCard(cardData) {
+  const card = new Card(cardData, '.template-card', handlePicturePopup);
+  const cardElement = card.getCardElement();
+  cardsContainer.prepend(cardElement);
+}
+
+function handlePicturePopup(card) {
+  const popupImage = new PopupWithImage(popupPicture, card);
+  popupImage.open();
+  popupImage.setEventListeners();
+}
+
+const popupNewCard = new PopupWithForm(newCard, (data) => {
+  createCard(data);
+  popupNewCard.reset();
 });
 
+popupNewCard.setEventListeners();
+
+btnNewCard.addEventListener('click', () => {
+  popupNewCard.open();
+});
+
+//render user info when the page is loaded the first time
+const staticUserInfo = new UserInfo();
+staticUserInfo.setUserInfo();
+
+const popupEditProfile = new PopupWithForm(editProfile, (data) => {
+  const staticUserInfo = new UserInfo(data);
+  staticUserInfo.updateUserInfo();
+  staticUserInfo.setUserInfo();
+});
+
+popupEditProfile.setEventListeners();
+
 btnEditProfile.addEventListener('click', () => {
-  const popup = new PopupWithForm(popupEditProfile, (data) => {
-    console.log(data);
-    profileName.textContent = data.profileName;
-    profileTitle.textContent = data.profileTitle;
-  });
-  popup.open();
-  popup.setEventListeners();
+  popupEditProfile.open();
 });
 
 const profileFormValidator = new FormValidator(options, popupProfileForm);

@@ -13,20 +13,26 @@ export default class PopupWithForm extends Popup {
     this._popupInputs.forEach((item) => {
       data[item.name] = item.value;
     });
+    console.log(data);
     return data;
   }
 
   setEventListeners() {
-    this._popupForm.addEventListener('submit', () => {
+    this._popupForm.addEventListener('submit', (evt) => {
+      evt.preventDefault();
       this._callback(this._getInputValues());
       this.close();
     });
     super.setEventListeners();
   }
 
+  reset() {
+    this._popupForm.reset();
+  }
+
   close() {
     //It modifies the close() parent method in order to reset the form once the popup is closed.
-    this._popupForm.reset();
+    //
     super.close();
   }
 }
