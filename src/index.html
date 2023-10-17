@@ -30,8 +30,8 @@
             <img src="<%=require('./images/jacques-cousteau.jpg')%>" alt="Profile picture" class="profile__img" />
 
             <div class="profile__info">
-              <h1 class="profile__name"></h1>
-              <p class="profile__title"></p>
+              <h1 class="profile__name">Jacques Cousteau</h1>
+              <p class="profile__title">Explorer</p>
               <button class="profile__btn profile__btn_type_edit" type="button">
                 <img src="<%=require('./images/btn-edit.svg')%>" alt="Edit" class="profile__btn-edit-img" />
               </button>
@@ -62,7 +62,7 @@
       <div class="popup popup_edit-profile">
         <div class="popup__container popup__container_type_form">
           <button class="popup__btn-close">
-            <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
+            <img src="<%=require('./images/close-icon.svg')%>" alt="Close" class="popup__btn-close-img" />
           </button>
           <h2 class="popup__title">Edit Profile</h2>
           <form class="popup__form" name="profileForm">
@@ -78,7 +78,7 @@
       <div class="popup popup_new-card">
         <div class="popup__container popup__container_type_form">
           <button class="popup__btn-close">
-            <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
+            <img src="<%=require('./images/close-icon.svg')%>" alt="Close" class="popup__btn-close-img" />
           </button>
           <h2 class="popup__title">New Place</h2>
           <form class="popup__form" name="newCardForm">
@@ -104,7 +104,7 @@
       <div class="popup popup_picture">
         <div class="popup__container popup__container_type_picture">
           <button class="popup__btn-close">
-            <img src="./images/close-icon.svg" alt="Close" class="popup__btn-close-img" />
+            <img src="<%=require('./images/close-icon.svg')%>" alt="Close" class="popup__btn-close-img" />
           </button>
           <img src="./" alt="" class="popup__picture-img" />
           <p class="popup__picture-title"></p>

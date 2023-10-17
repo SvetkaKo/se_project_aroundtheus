@@ -1,30 +1,18 @@
-export default class UserInfo {
-  constructor(data) {
-    this._data = data;
-    this._name = 'Jacques Cousteau';
-    this._title = 'Explorer';
-    this._profileName = document.querySelector('.profile__name');
-    this._profileTitle = document.querySelector('.profile__title');
-    this._profileInputName = document.querySelector('#profile-name');
-    this._profileInputTitle = document.querySelector('#profile-title');
-  }
-
-  updateUserInfo(data) {
-    this._name = this._data.profileName;
-    this._title = this._data.profileTitle;
+export default class UserInfor {
+  constructor({ nameSelector, aboutMeSelector }) {
+    this._nameElement = document.querySelector(nameSelector);
+    this._aboutMeElement = document.querySelector(aboutMeSelector);
   }
 
   getUserInfo() {
-    // return { name: 'this._name', title: 'this._title'}
+    return {
+      profileName: this._nameElement.textContent,
+      profileTitle: this._aboutMeElement.textContent,
+    };
   }
 
-  setUserInfo() {
-    // render user data in the header
-    this._profileName.textContent = this._name;
-    this._profileTitle.textContent = this._title;
-
-    // input fields
-    this._profileInputName.value = this._name;
-    this._profileInputTitle.value = this._title;
+  setUserInfo(data) {
+    this._nameElement.textContent = data.profileName;
+    this._aboutMeElement.textContent = data.profileTitle;
   }
 }

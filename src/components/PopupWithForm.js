@@ -5,16 +5,21 @@ export default class PopupWithForm extends Popup {
     super(popup);
     this._callback = callback;
     this._popupForm = this._popup.querySelector('.popup__form');
+    this._popupInputs = this._popupForm.querySelectorAll('.popup__form-input');
   }
 
   _getInputValues() {
-    this._popupInputs = this._popupForm.querySelectorAll('.popup__form-input');
     const data = {};
     this._popupInputs.forEach((item) => {
       data[item.name] = item.value;
     });
-    console.log(data);
     return data;
+  }
+
+  setInputValues(data) {
+    this._popupInputs.forEach((item) => {
+      item.value = data[item.name];
+    });
   }
 
   setEventListeners() {
@@ -28,11 +33,5 @@ export default class PopupWithForm extends Popup {
 
   reset() {
     this._popupForm.reset();
-  }
-
-  close() {
-    //It modifies the close() parent method in order to reset the form once the popup is closed.
-    //
-    super.close();
   }
 }
