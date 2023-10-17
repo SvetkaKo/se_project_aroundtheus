@@ -53,7 +53,6 @@ const btnNewCard = document.querySelector('.profile__btn_type_add');
 const containerSelector = document.querySelector('.cards');
 
 const popupProfileForm = document.forms.profileForm;
-
 const popupPicture = document.querySelector('.popup_picture');
 
 const cardList = new Section(
@@ -97,7 +96,6 @@ btnNewCard.addEventListener('click', () => {
 const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutMeSelector: '.profile__title' });
 
 const popupEditProfile = new PopupWithForm(editProfile, (data) => {
-  userInfo.getUserInfo();
   userInfo.setUserInfo(data);
 });
 
