@@ -4,7 +4,9 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupConfirmation from '../components/PopupConfirmation';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 
 const initialCards = [
   {
@@ -33,6 +35,14 @@ const initialCards = [
   },
 ];
 
+const api = new Api({
+  baseUrl: 'https://around-api.en.tripleten-services.com/v1',
+  headers: {
+    authorization: 'd80b0a8b-56e7-45c3-8099-725247c052b9',
+    'Content-Type': 'application/json',
+  },
+});
+
 const options = {
   formSelector: '.popup__form',
   inputSelector: '.popup__form-input',
@@ -54,16 +64,9 @@ const containerSelector = document.querySelector('.cards');
 
 const popupProfileForm = document.forms.profileForm;
 const popupPicture = document.querySelector('.popup_picture');
+const popupConfirmDelete = document.querySelector('.popup_confirm-delete');
 
-const cardList = new Section(
-  {
-    data: initialCards,
-    renderer: createCard,
-  },
-  containerSelector // .cards
-);
-
-cardList.renderItems();
+let cardList;
 
 const profileFormValidator = new FormValidator(options, popupProfileForm);
 profileFormValidator.enableValidation();
@@ -72,7 +75,7 @@ const newCardFormValidator = new FormValidator(options, popupCardForm);
 newCardFormValidator.enableValidation();
 
 function createCard(cardData) {
-  const card = new Card(cardData, '.template-card', handlePicturePopup);
+  const card = new Card(cardData, '.template-card', handlePicturePopup, handleDeleteButton);
   const cardElement = card.getCardElement();
   cardList.addItem(cardElement);
 }
@@ -83,11 +86,44 @@ function handlePicturePopup(name, link) {
   popupImage.open(name, link);
 }
 
-const popupNewCard = new PopupWithForm(newCard, (data) => {
-  createCard(data);
-  popupNewCard.reset();
-  newCardFormValidator.disableSubmitButton();
-});
+const popupDelete = new PopupConfirmation(popupConfirmDelete, handleDeletePicture);
+
+function handleDeleteButton(cardId, element) {
+  popupDelete.open(cardId, element);
+}
+
+function handleDeletePicture(cardId, element) {
+  api
+    .deleteCard(cardId)
+    .then(() => {
+      element.remove();
+    })
+    .catch((error) => {
+      console.error('Error deleting card:', error);
+    });
+}
+
+const popupNewCard = new PopupWithForm(newCard, handleNewCardSubmition);
+
+function handleNewCardSubmition(cardData) {
+  api
+    .addCard(cardData)
+    .then(() => {
+      createCard(cardData);
+      popupNewCard.reset();
+      newCardFormValidator.disableSubmitButton();
+    })
+    .catch((error) => {
+      console.error('Error adding a new card:', error);
+    });
+}
+
+// const popupNewCard = new PopupWithForm(newCard, (data) => {
+//   api.addCard(data);
+//   createCard(data);
+//   popupNewCard.reset();
+//   newCardFormValidator.disableSubmitButton();
+// });
 
 btnNewCard.addEventListener('click', () => {
   popupNewCard.open();
@@ -95,13 +131,26 @@ btnNewCard.addEventListener('click', () => {
 
 const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutMeSelector: '.profile__title' });
 
+api.getData().then(([userData, userCards]) => {
+  console.log(userData, userCards);
+  userInfo.setUserInfo(userData);
+  cardList = new Section(
+    {
+      data: userCards,
+      renderer: createCard,
+    },
+    containerSelector // .cards
+  );
+  cardList.renderItems();
+});
+
 const popupEditProfile = new PopupWithForm(editProfile, (data) => {
   userInfo.setUserInfo(data);
+  api.updateUserInfo(data);
 });
 
 btnEditProfile.addEventListener('click', () => {
   const data = userInfo.getUserInfo();
   popupEditProfile.setInputValues(data);
   popupEditProfile.open();
-  //close button in Popup's method setEventListeners
 });
