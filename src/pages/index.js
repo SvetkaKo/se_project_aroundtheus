@@ -89,10 +89,12 @@ function handlePicturePopup(name, link) {
 const popupDelete = new PopupConfirmation(popupConfirmDelete, handleDeletePicture);
 
 function handleDeleteButton(cardId, element) {
+  console.log(cardId, element);
   popupDelete.open(cardId, element);
 }
 
 function handleDeletePicture(cardId, element) {
+  console.log(cardId, element);
   api
     .deleteCard(cardId)
     .then(() => {
@@ -110,6 +112,8 @@ function handleNewCardSubmition(cardData) {
     .addCard(cardData)
     .then(() => {
       createCard(cardData);
+    })
+    .then(() => {
       popupNewCard.reset();
       newCardFormValidator.disableSubmitButton();
     })
@@ -117,13 +121,6 @@ function handleNewCardSubmition(cardData) {
       console.error('Error adding a new card:', error);
     });
 }
-
-// const popupNewCard = new PopupWithForm(newCard, (data) => {
-//   api.addCard(data);
-//   createCard(data);
-//   popupNewCard.reset();
-//   newCardFormValidator.disableSubmitButton();
-// });
 
 btnNewCard.addEventListener('click', () => {
   popupNewCard.open();
@@ -144,10 +141,28 @@ api.getData().then(([userData, userCards]) => {
   cardList.renderItems();
 });
 
-const popupEditProfile = new PopupWithForm(editProfile, (data) => {
-  userInfo.setUserInfo(data);
-  api.updateUserInfo(data);
-});
+// const popupEditProfile = new PopupWithForm(editProfile, (data) => {
+//   api.updateUserInfo(data).then(() => {
+//     userInfo.setUserInfo(data);
+//   });
+// });
+
+const popupEditProfile = new PopupWithForm(editProfile, handleUserProfileSubmition);
+
+function handleUserProfileSubmition(userData) {
+  console.log(userData);
+  api
+    .updateUserInfo(userData)
+    .then(() => {
+      userInfo.setUserInfo(userData);
+    })
+    .then(() => {
+      popupEditProfile.reset();
+    })
+    .catch((error) => {
+      console.error('Error adding a new card:', error);
+    });
+}
 
 btnEditProfile.addEventListener('click', () => {
   const data = userInfo.getUserInfo();
