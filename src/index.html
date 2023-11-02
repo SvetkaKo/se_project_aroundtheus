@@ -27,7 +27,9 @@
         </header>
         <main>
           <section class="profile">
-            <img src="<%=require('./images/jacques-cousteau.jpg')%>" alt="Profile picture" class="profile__img" />
+            <button class="profile-photo-edit__edit-btn" type="button">
+              <img src="" alt="Profile picture" class="profile-photo-edit__image" />
+            </button>
 
             <div class="profile__info">
               <h1 class="profile__name"></h1>
@@ -59,6 +61,7 @@
           <p class="footer__copyright">© 2022 Around The U.S.</p>
         </footer>
       </div>
+      <!-- edit profile name and about -->
       <div class="popup popup_edit-profile">
         <div class="popup__container popup__container_type_form">
           <button class="popup__btn-close">
@@ -69,6 +72,20 @@
             <input required type="text" id="profile-name" minlength="2" maxlength="40" name="name" class="popup__form-input" />
             <span class="popup__input-error profile-name-error"></span>
             <input required type="text" id="profile-title" minlength="2" maxlength="200" name="about" class="popup__form-input" />
+            <span class="popup__input-error profile-title-error"></span>
+            <button type="submit" class="popup__btn-submit">Save</button>
+          </form>
+        </div>
+      </div>
+      <!-- edit profile avatar -->
+      <div class="popup popup_edit-profile-image">
+        <div class="popup__container popup__container_type_form">
+          <button class="popup__btn-close">
+            <img src="<%=require('./images/close-icon.svg')%>" alt="Close" class="popup__btn-close-img" />
+          </button>
+          <h2 class="popup__title">Edit Profile</h2>
+          <form class="popup__form" name="profileEditImageForm">
+            <input required type="url" id="avatar-link" name="avatar" class="popup__form-input" placeholder="New image link" />
             <span class="popup__input-error profile-title-error"></span>
             <button type="submit" class="popup__btn-submit">Save</button>
           </form>

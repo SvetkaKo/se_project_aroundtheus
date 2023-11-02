@@ -14,6 +14,7 @@ export default class PopupWithForm extends Popup {
     this._popupInputs.forEach((item) => {
       data[item.name] = item.value;
     });
+    console.log(data);
     return data;
   }
 
@@ -33,9 +34,10 @@ export default class PopupWithForm extends Popup {
     super.removeEventListeners();
   }
 
-  _handleSubmitForm = () => {
+  _handleSubmitForm = (evt) => {
     this._submitBtn.textContent = 'Saving...';
     this._callback(this._getInputValues());
+    evt.preventDefault();
   };
 
   reset() {

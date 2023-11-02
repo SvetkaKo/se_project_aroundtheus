@@ -40,6 +40,17 @@ export default class Api {
     }).then(this._checkResponse);
   }
 
+  updateProfileImage(userData) {
+    console.log(userData);
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: userData.avatar,
+      }),
+    }).then(this._checkResponse);
+  }
+
   addCard(cardData) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',

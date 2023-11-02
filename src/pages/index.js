@@ -59,12 +59,15 @@ const popupCardForm = document.forms.newCardForm;
 
 const btnEditProfile = document.querySelector('.profile__btn_type_edit');
 const btnNewCard = document.querySelector('.profile__btn_type_add');
+const btnEditProfileImage = document.querySelector('.profile-photo-edit__edit-btn');
 
 const containerSelector = document.querySelector('.cards');
 
 const popupProfileForm = document.forms.profileForm;
 const popupPicture = document.querySelector('.popup_picture');
 const popupConfirmDelete = document.querySelector('.popup_confirm-delete');
+const popupEditProfileImage = document.querySelector('.popup_edit-profile-image');
+const EditProfileImageForm = document.forms.profileEditImageForm;
 
 let cardList;
 
@@ -89,12 +92,10 @@ function handlePicturePopup(name, link) {
 const popupDelete = new PopupConfirmation(popupConfirmDelete, handleDeletePicture);
 
 function handleDeleteButton(cardId, element) {
-  console.log(cardId, element);
   popupDelete.open(cardId, element);
 }
 
 function handleDeletePicture(cardId, element) {
-  console.log(cardId, element);
   api
     .deleteCard(cardId)
     .then(() => {
@@ -126,7 +127,7 @@ btnNewCard.addEventListener('click', () => {
   popupNewCard.open();
 });
 
-const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutMeSelector: '.profile__title' });
+const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__title', avatarSelector: '.profile-photo-edit__image' });
 
 api.getData().then(([userData, userCards]) => {
   console.log(userData, userCards);
@@ -140,6 +141,26 @@ api.getData().then(([userData, userCards]) => {
   );
   cardList.renderItems();
 });
+
+const editProfileImage = new PopupWithForm(popupEditProfileImage, handleProfileImageSubmit);
+
+btnEditProfileImage.addEventListener('click', () => {
+  editProfileImage.open();
+});
+
+function handleProfileImageSubmit(userData) {
+  api
+    .updateProfileImage(userData)
+    .then(() => {
+      userInfo.setUserAvatar(userData);
+    })
+    .then(() => {
+      editProfileImage.reset();
+    })
+    .catch((error) => {
+      console.error('Error updating a new image:', error);
+    });
+}
 
 // const popupEditProfile = new PopupWithForm(editProfile, (data) => {
 //   api.updateUserInfo(data).then(() => {
