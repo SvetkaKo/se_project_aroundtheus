@@ -78,7 +78,7 @@ const newCardFormValidator = new FormValidator(options, popupCardForm);
 newCardFormValidator.enableValidation();
 
 function createCard(cardData) {
-  const card = new Card(cardData, '.template-card', handlePicturePopup, handleDeleteButton);
+  const card = new Card(cardData, '.template-card', handlePicturePopup, handleDeleteButton, handleLikeButton);
   const cardElement = card.getCardElement();
   cardList.addItem(cardElement);
 }
@@ -104,6 +104,30 @@ function handleDeletePicture(cardId, element) {
     .catch((error) => {
       console.error('Error deleting card:', error);
     });
+}
+
+function handleLikeButton(cardId, isLiked, btnLike) {
+  if (isLiked) {
+    api
+      .dislikeCard(cardId)
+      .then(() => {
+        btnLike.classList.remove('card__btn-like_active');
+        this._isLiked = false;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    api
+      .likeCard(cardId)
+      .then(() => {
+        btnLike.classList.add('card__btn-like_active');
+        this._isLiked = true;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 }
 
 const popupNewCard = new PopupWithForm(newCard, handleNewCardSubmition);
@@ -161,12 +185,6 @@ function handleProfileImageSubmit(userData) {
       console.error('Error updating a new image:', error);
     });
 }
-
-// const popupEditProfile = new PopupWithForm(editProfile, (data) => {
-//   api.updateUserInfo(data).then(() => {
-//     userInfo.setUserInfo(data);
-//   });
-// });
 
 const popupEditProfile = new PopupWithForm(editProfile, handleUserProfileSubmition);
 
