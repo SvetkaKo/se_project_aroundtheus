@@ -67,7 +67,7 @@ const popupProfileForm = document.forms.profileForm;
 const popupPicture = document.querySelector('.popup_picture');
 const popupConfirmDelete = document.querySelector('.popup_confirm-delete');
 const popupEditProfileImage = document.querySelector('.popup_edit-profile-image');
-const EditProfileImageForm = document.forms.profileEditImageForm;
+const popupProfileImageForm = document.forms.profileEditImageForm;
 
 let cardList;
 
@@ -76,6 +76,9 @@ profileFormValidator.enableValidation();
 
 const newCardFormValidator = new FormValidator(options, popupCardForm);
 newCardFormValidator.enableValidation();
+
+const ProfileImageFormValidator = new FormValidator(options, popupProfileImageForm);
+ProfileImageFormValidator.enableValidation();
 
 function createCard(cardData) {
   const card = new Card(cardData, '.template-card', handlePicturePopup, handleDeleteButton, handleLikeButton);
@@ -148,19 +151,24 @@ btnNewCard.addEventListener('click', () => {
 
 const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__title', avatarSelector: '.profile-photo-edit__image' });
 
-api.getData().then(([userData, userCards]) => {
-  console.log(userData, userCards);
-  userInfo.setUserInfo(userData);
-  userInfo.setUserAvatar(userData);
-  cardList = new Section(
-    {
-      data: userCards,
-      renderer: createCard,
-    },
-    containerSelector // .cards
-  );
-  cardList.renderItems();
-});
+api
+  .getData()
+  .then(([userData, userCards]) => {
+    console.log(userData, userCards);
+    userInfo.setUserInfo(userData);
+    userInfo.setUserAvatar(userData);
+    cardList = new Section(
+      {
+        data: userCards,
+        renderer: createCard,
+      },
+      containerSelector // .cards
+    );
+    cardList.renderItems();
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 const editProfileImage = new PopupWithForm(popupEditProfileImage, handleProfileImageSubmit);
 
@@ -190,8 +198,6 @@ function handleUserProfileSubmition(userData) {
     .updateUserInfo(userData)
     .then(() => {
       userInfo.setUserInfo(userData);
-    })
-    .then(() => {
       popupEditProfile.reset();
     })
     .catch((error) => {
