@@ -106,24 +106,19 @@ function handleDeletePicture(cardId, element) {
     });
 }
 
-function handleLikeButton(cardId, isLiked, btnLike) {
-  if (isLiked) {
+function handleLikeButton(cardId) {
+  if (this.isLiked()) {
+    //this = card
     api
       .dislikeCard(cardId)
-      .then(() => {
-        btnLike.classList.remove('card__btn-like_active');
-        this._isLiked = false;
-      })
+      .then((res) => this.setIsLiked(res.isLiked))
       .catch((error) => {
         console.error(error);
       });
   } else {
     api
       .likeCard(cardId)
-      .then(() => {
-        btnLike.classList.add('card__btn-like_active');
-        this._isLiked = true;
-      })
+      .then((res) => this.setIsLiked(res.isLiked))
       .catch((error) => {
         console.error(error);
       });
@@ -156,6 +151,7 @@ const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '
 api.getData().then(([userData, userCards]) => {
   console.log(userData, userCards);
   userInfo.setUserInfo(userData);
+  userInfo.setUserAvatar(userData);
   cardList = new Section(
     {
       data: userCards,

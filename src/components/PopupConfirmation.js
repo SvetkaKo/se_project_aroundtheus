@@ -3,7 +3,6 @@ import Popup from '../components/Popup.js';
 export default class PopupConfirmation extends Popup {
   constructor(popup, handleDeletePicture) {
     super(popup);
-
     this._handleDeletePicture = handleDeletePicture;
     this._popupForm = this._popup.querySelector('.popup__form');
   }
