@@ -1,16 +1,14 @@
 import Popup from '../components/Popup.js';
 
 export default class PopupConfirmation extends Popup {
-  constructor(popup, handleDeletePicture) {
+  constructor(popup) {
     super(popup);
-    this._handleDeletePicture = handleDeletePicture;
+    // this._handleDeletePicture = handleDeletePicture;
     this._popupForm = this._popup.querySelector('.popup__form');
   }
 
-  open(cardId, element) {
-    this._cardId = cardId;
-    this._element = element;
-    super.open();
+  setAction(action) {
+    this._action = action;
   }
 
   setEventListeners() {
@@ -24,9 +22,8 @@ export default class PopupConfirmation extends Popup {
   }
 
   _handleSubmitForm = (evt) => {
-    this._handleDeletePicture(this._cardId, this._element);
-    this.close();
     evt.preventDefault();
+    this._action();
   };
 
   reset() {

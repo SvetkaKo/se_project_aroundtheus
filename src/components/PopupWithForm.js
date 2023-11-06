@@ -1,12 +1,22 @@
 import Popup from '../components/Popup.js';
 
 export default class PopupWithForm extends Popup {
-  constructor(popup, callback) {
+  constructor(popup, handleSubmit, loadingButtonText) {
     super(popup);
-    this._callback = callback;
+    this._handleSubmit = handleSubmit;
     this._popupForm = this._popup.querySelector('.popup__form');
     this._popupInputs = this._popupForm.querySelectorAll('.popup__form-input');
     this._submitBtn = this._popup.querySelector('.popup__btn-submit');
+    this._buttonText = this._submitBtn.textContent;
+    this._loadingButtonText = loadingButtonText;
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitBtn.textContent = this._loadingButtonText;
+    } else {
+      this._submitBtn.textContent = this._buttonText;
+    }
   }
 
   _getInputValues() {
@@ -35,14 +45,11 @@ export default class PopupWithForm extends Popup {
   }
 
   _handleSubmitForm = (evt) => {
-    this._submitBtn.textContent = 'Saving...';
-    this._callback(this._getInputValues());
+    this._handleSubmit(this._getInputValues());
     evt.preventDefault();
   };
 
   reset() {
-    this.close();
     this._popupForm.reset();
-    this._submitBtn.textContent = 'Save';
   }
 }

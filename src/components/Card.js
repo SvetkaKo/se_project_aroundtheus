@@ -36,9 +36,9 @@ export default class Card {
 
   _renderLikes() {
     if (this._isLiked) {
-      this._btnLike.classList.remove('card__btn-like_active');
-    } else {
       this._btnLike.classList.add('card__btn-like_active');
+    } else {
+      this._btnLike.classList.remove('card__btn-like_active');
     }
   }
 

@@ -8,33 +8,6 @@ import PopupConfirmation from '../components/PopupConfirmation';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-const initialCards = [
-  {
-    name: 'Yosemite Valley',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg',
-  },
-  {
-    name: 'Lake Louise',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg',
-  },
-  {
-    name: 'Bald Mountains',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg',
-  },
-  {
-    name: 'Latemar',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg',
-  },
-  {
-    name: 'Vanoise National Park',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg',
-  },
-  {
-    name: 'Lago di Braies',
-    link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg',
-  },
-];
-
 const api = new Api({
   baseUrl: 'https://around-api.en.tripleten-services.com/v1',
   headers: {
@@ -80,38 +53,42 @@ newCardFormValidator.enableValidation();
 const ProfileImageFormValidator = new FormValidator(options, popupProfileImageForm);
 ProfileImageFormValidator.enableValidation();
 
-function createCard(cardData) {
-  const card = new Card(cardData, '.template-card', handlePicturePopup, handleDeleteButton, handleLikeButton);
-  const cardElement = card.getCardElement();
-  cardList.addItem(cardElement);
-}
-
 const popupImage = new PopupWithImage(popupPicture);
 
 function handlePicturePopup(name, link) {
   popupImage.open(name, link);
 }
 
-const popupDelete = new PopupConfirmation(popupConfirmDelete, handleDeletePicture);
-
-function handleDeleteButton(cardId, element) {
-  popupDelete.open(cardId, element);
+function createCard(cardData) {
+  const card = new Card(
+    cardData,
+    '.template-card',
+    handlePicturePopup,
+    () => {
+      popupDelete.setAction(() => {
+        api
+          .deleteCard(cardData._id)
+          .then(() => {
+            cardElement.remove();
+            popupDelete.close();
+          })
+          .catch((error) => {
+            console.error('Error deleting card:', error);
+          });
+      });
+      popupDelete.open();
+    },
+    handleLikeButton
+  );
+  const cardElement = card.getCardElement();
+  cardList.addItem(cardElement);
 }
 
-function handleDeletePicture(cardId, element) {
-  api
-    .deleteCard(cardId)
-    .then(() => {
-      element.remove();
-    })
-    .catch((error) => {
-      console.error('Error deleting card:', error);
-    });
-}
+const popupDelete = new PopupConfirmation(popupConfirmDelete);
 
+/////
 function handleLikeButton(cardId) {
   if (this.isLiked()) {
-    //this = card
     api
       .dislikeCard(cardId)
       .then((res) => this.setIsLiked(res.isLiked))
@@ -128,16 +105,21 @@ function handleLikeButton(cardId) {
   }
 }
 
-const popupNewCard = new PopupWithForm(newCard, handleNewCardSubmition);
+const loadingButtonText = 'Saving...';
+
+const popupNewCard = new PopupWithForm(newCard, handleNewCardSubmition, loadingButtonText);
 
 function handleNewCardSubmition(cardData) {
+  popupNewCard.renderLoading(true);
   api
     .addCard(cardData)
     .then(() => {
       createCard(cardData);
     })
-    .then(() => {
+    .finally(() => {
+      popupNewCard.renderLoading(false);
       popupNewCard.reset();
+      popupNewCard.close();
       newCardFormValidator.disableSubmitButton();
     })
     .catch((error) => {
@@ -170,20 +152,23 @@ api
     console.error(error);
   });
 
-const editProfileImage = new PopupWithForm(popupEditProfileImage, handleProfileImageSubmit);
+const editProfileImage = new PopupWithForm(popupEditProfileImage, handleProfileImageSubmit, loadingButtonText);
 
 btnEditProfileImage.addEventListener('click', () => {
   editProfileImage.open();
 });
 
 function handleProfileImageSubmit(userData) {
+  editProfileImage.renderLoading(true);
   api
     .updateProfileImage(userData)
     .then(() => {
       userInfo.setUserAvatar(userData);
     })
-    .then(() => {
+    .finally(() => {
+      editProfileImage.renderLoading(false);
       editProfileImage.reset();
+      editProfileImage.close();
     })
     .catch((error) => {
       console.error('Error updating a new image:', error);
@@ -198,7 +183,9 @@ function handleUserProfileSubmition(userData) {
     .updateUserInfo(userData)
     .then(() => {
       userInfo.setUserInfo(userData);
-      popupEditProfile.reset();
+    })
+    .finally(() => {
+      popupEditProfile.close();
     })
     .catch((error) => {
       console.error('Error adding a new card:', error);
