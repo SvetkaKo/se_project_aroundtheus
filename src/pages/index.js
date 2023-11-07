@@ -116,8 +116,8 @@ function handleNewCardSubmition(cardData) {
   popupNewCard.renderLoading(true);
   api
     .addCard(cardData)
-    .then(() => {
-      createCard(cardData);
+    .then((response) => {
+      createCard(response);
       popupNewCard.reset();
       popupNewCard.close();
       newCardFormValidator.disableSubmitButton();
@@ -166,8 +166,6 @@ function handleProfileImageSubmit(userData) {
     .updateProfileImage(userData)
     .then(() => {
       userInfo.setUserAvatar(userData);
-    })
-    .then(() => {
       editProfileImage.reset();
       editProfileImage.close();
     })
