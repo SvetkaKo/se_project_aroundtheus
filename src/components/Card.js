@@ -30,6 +30,10 @@ export default class Card {
     });
   }
 
+  remove() {
+    this._element.remove();
+  }
+
   isLiked() {
     return this._isLiked;
   }

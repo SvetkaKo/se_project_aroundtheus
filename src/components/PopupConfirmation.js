@@ -1,10 +1,21 @@
 import Popup from '../components/Popup.js';
 
 export default class PopupConfirmation extends Popup {
-  constructor(popup) {
+  constructor(popup, loadingButtonText) {
     super(popup);
     // this._handleDeletePicture = handleDeletePicture;
     this._popupForm = this._popup.querySelector('.popup__form');
+    this._submitBtn = this._popup.querySelector('.popup__btn-submit');
+    this._buttonText = this._submitBtn.textContent;
+    this._loadingButtonText = loadingButtonText;
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitBtn.textContent = this._loadingButtonText;
+    } else {
+      this._submitBtn.textContent = this._buttonText;
+    }
   }
 
   setAction(action) {

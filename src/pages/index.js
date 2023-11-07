@@ -50,10 +50,12 @@ profileFormValidator.enableValidation();
 const newCardFormValidator = new FormValidator(options, popupCardForm);
 newCardFormValidator.enableValidation();
 
-const ProfileImageFormValidator = new FormValidator(options, popupProfileImageForm);
-ProfileImageFormValidator.enableValidation();
+const profileImageFormValidator = new FormValidator(options, popupProfileImageForm);
+profileImageFormValidator.enableValidation();
 
 const popupImage = new PopupWithImage(popupPicture);
+
+const loadingButtonText = 'Saving...';
 
 function handlePicturePopup(name, link) {
   popupImage.open(name, link);
@@ -66,11 +68,13 @@ function createCard(cardData) {
     handlePicturePopup,
     () => {
       popupDelete.setAction(() => {
+        popupDelete.renderLoading(true);
         api
           .deleteCard(cardData._id)
           .then(() => {
-            cardElement.remove();
+            card.remove();
             popupDelete.close();
+            popupDelete.renderLoading(false);
           })
           .catch((error) => {
             console.error('Error deleting card:', error);
@@ -84,7 +88,7 @@ function createCard(cardData) {
   cardList.addItem(cardElement);
 }
 
-const popupDelete = new PopupConfirmation(popupConfirmDelete);
+const popupDelete = new PopupConfirmation(popupConfirmDelete, loadingButtonText);
 
 /////
 function handleLikeButton(cardId) {
@@ -105,8 +109,6 @@ function handleLikeButton(cardId) {
   }
 }
 
-const loadingButtonText = 'Saving...';
-
 const popupNewCard = new PopupWithForm(newCard, handleNewCardSubmition, loadingButtonText);
 
 function handleNewCardSubmition(cardData) {
@@ -116,7 +118,7 @@ function handleNewCardSubmition(cardData) {
     .then(() => {
       createCard(cardData);
     })
-    .finally(() => {
+    .then(() => {
       popupNewCard.renderLoading(false);
       popupNewCard.reset();
       popupNewCard.close();
@@ -165,7 +167,7 @@ function handleProfileImageSubmit(userData) {
     .then(() => {
       userInfo.setUserAvatar(userData);
     })
-    .finally(() => {
+    .then(() => {
       editProfileImage.renderLoading(false);
       editProfileImage.reset();
       editProfileImage.close();
@@ -179,13 +181,15 @@ const popupEditProfile = new PopupWithForm(editProfile, handleUserProfileSubmiti
 
 function handleUserProfileSubmition(userData) {
   console.log(userData);
+  popupEditProfile.renderLoading(true);
   api
     .updateUserInfo(userData)
     .then(() => {
       userInfo.setUserInfo(userData);
     })
-    .finally(() => {
+    .then(() => {
       popupEditProfile.close();
+      popupEditProfile.renderLoading(false);
     })
     .catch((error) => {
       console.error('Error adding a new card:', error);
