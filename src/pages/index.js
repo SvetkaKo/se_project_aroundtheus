@@ -74,6 +74,8 @@ function createCard(cardData) {
           .then(() => {
             card.remove();
             popupDelete.close();
+          })
+          .finally(() => {
             popupDelete.renderLoading(false);
           })
           .catch((error) => {
@@ -90,7 +92,6 @@ function createCard(cardData) {
 
 const popupDelete = new PopupConfirmation(popupConfirmDelete, loadingButtonText);
 
-/////
 function handleLikeButton(cardId) {
   if (this.isLiked()) {
     api
@@ -117,12 +118,12 @@ function handleNewCardSubmition(cardData) {
     .addCard(cardData)
     .then(() => {
       createCard(cardData);
-    })
-    .then(() => {
-      popupNewCard.renderLoading(false);
       popupNewCard.reset();
       popupNewCard.close();
       newCardFormValidator.disableSubmitButton();
+    })
+    .finally(() => {
+      popupNewCard.renderLoading(false);
     })
     .catch((error) => {
       console.error('Error adding a new card:', error);
@@ -138,7 +139,6 @@ const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '
 api
   .getData()
   .then(([userData, userCards]) => {
-    console.log(userData, userCards);
     userInfo.setUserInfo(userData);
     userInfo.setUserAvatar(userData);
     cardList = new Section(
@@ -168,19 +168,20 @@ function handleProfileImageSubmit(userData) {
       userInfo.setUserAvatar(userData);
     })
     .then(() => {
-      editProfileImage.renderLoading(false);
       editProfileImage.reset();
       editProfileImage.close();
+    })
+    .finally(() => {
+      editProfileImage.renderLoading(false);
     })
     .catch((error) => {
       console.error('Error updating a new image:', error);
     });
 }
 
-const popupEditProfile = new PopupWithForm(editProfile, handleUserProfileSubmition);
+const popupEditProfile = new PopupWithForm(editProfile, handleUserProfileSubmition, loadingButtonText);
 
 function handleUserProfileSubmition(userData) {
-  console.log(userData);
   popupEditProfile.renderLoading(true);
   api
     .updateUserInfo(userData)
