@@ -42,9 +42,10 @@
 }
 
 .popup__picture-img {
+  max-height: 75vh;
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 .popup__picture-title {
   color: #fff;

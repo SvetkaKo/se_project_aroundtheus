@@ -16,4 +16,4 @@ This project focuses on responsive design, ensuring all elements are optimally d
 
 **Online**
 
-- [Check the project online](https://svetkako.github.io/se_project_aroundtheus/)
+- [Check the project online](https://skovakina.github.io/se_project_aroundtheus/)
