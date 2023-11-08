@@ -183,11 +183,11 @@ function handleUserProfileSubmition(userData) {
   popupEditProfile.renderLoading(true);
   api
     .updateUserInfo(userData)
-    .then(() => {
-      userInfo.setUserInfo(userData);
-    })
-    .then(() => {
+    .then((res) => {
+      userInfo.setUserInfo(res);
       popupEditProfile.close();
+    })
+    .finally(() => {
       popupEditProfile.renderLoading(false);
     })
     .catch((error) => {
